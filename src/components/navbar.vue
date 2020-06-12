@@ -100,7 +100,7 @@
             },
             select: function(selected) {
                 if (selected === this.$route.params.id) return;
-                this.$router.push({path: '/gioco/' + selected});
+                this.$router.push({path: '/game/' + selected});
             }
         }
     }
