@@ -82,9 +82,9 @@ export default {
                 this.game = data.data.games[0];
                 //console.log(this.game);
                 dataservice.getVote(this.game.name).then(stats => {
-                    console.log(stats);
                     this.stats = stats;
                 });
+                
             });
             
         },
@@ -98,7 +98,7 @@ export default {
                 });
                 this.voted = false;
             }
-        }
+        },
     }
 }
 </script>
