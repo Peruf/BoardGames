@@ -108,6 +108,6 @@
 
 <style scoped>
 .searchBar {
-  max-width: 100%;
+  max-width: 250px;
 }
 </style>
