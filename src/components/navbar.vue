@@ -3,7 +3,6 @@
         <md-button to="/" class="md-icon-button ">
             <md-icon>home</md-icon>
         </md-button>
-        <span>Ciao</span>
         <!-- <md-button to="/1" class="link">1</md-button>
         <md-button to="/2" class="link ">2</md-button>
         <md-button to="/3" class="link ">3</md-button>
