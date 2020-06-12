@@ -47,7 +47,7 @@ export default {
   max-height: 300px;
   max-width: 400px;
   box-shadow: 0px 0px 34px 0px rgba(0,0,0,0.30);
-  border-radius: 5%;
+  border-radius: 2%;
 }
 .card-image{
   margin-top: 5%;

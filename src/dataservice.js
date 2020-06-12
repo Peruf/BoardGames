@@ -43,7 +43,7 @@ export default{
         });}
     },
     getVote(name){
-        return db.collection('voti').where('nome', '==', name).get().then((data) => {
+        return db.collection('voti').where('gioco', '==', name).get().then((data) => {
             let sum = 0;
             let username = localStorage.getItem('username');
             let userVote = null;
