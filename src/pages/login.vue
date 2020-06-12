@@ -12,6 +12,7 @@
                     </md-field>
                 </md-card-content>
                     <md-card-action name="login">
+                        <!-- Il bottone si abilita solo se c'è scritto qualcosa nell'imput username -->
                         <md-button class="md-accent md-raised" :disabled="!username" @click="signIn()">Sign in</md-button>
                     </md-card-action>
             </md-card-area>
@@ -31,6 +32,7 @@ export default {
     methods:{
         signIn: function(){
             dataservice.Login(this.username);
+            // Una volta fatto il login reindirizzo la navigazione alla home
             this.$router.push({ path: '/' });
         }
     }

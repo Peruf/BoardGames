@@ -1,14 +1,14 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 import VueMaterial from 'vue-material'
+import home from '@/pages/homepage.vue'
+import game from '@/pages/game.vue'
+import Login from './pages/login.vue'
 // import page1 from './pages/page1.vue'
 // import page2 from './pages/page2.vue'
 // import page3 from './pages/page3.vue'
 // import page4 from './pages/page4.vue'
 // import page5 from './pages/page5.vue'
-import home from '@/pages/homepage.vue'
-import game from '@/pages/game.vue'
-import Login from './pages/login.vue'
 
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
@@ -28,6 +28,16 @@ export default new VueRouter({
             path: '/',
             name: 'Home',
             component: home
+        },
+        {
+            path: '/game/:name',
+            name: 'Game',
+            component: game
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
         },
         // {
         //     path: '/1',
@@ -54,15 +64,5 @@ export default new VueRouter({
         //     name: '5',
         //     component: page5,
         // },
-        {
-            path: '/game/:name',
-            name: 'Game',
-            component: game
-        },
-        {
-            path: '/login',
-            name: 'Login',
-            component: Login
-        },
     ]
 })

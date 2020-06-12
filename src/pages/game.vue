@@ -3,7 +3,7 @@
       <!-- voglio che i game siano una card 
         https://www.boardgameatlas.com/api/search?name=Azul&client_id=vuxWmH7cLW per guardare le caratterisctiche dei giochi
       -->
-      <md-card class="md-layout-item" v-if="game">
+      <md-card class="md-layout-item" v-if="game"> <!-- la card si mostra solo se c'è un game -->
           <md-card-header class="md-layout">
             <div class="md-layout md-gutter">
                 <md-card-media md-medium class="md-layout-item md-size-10" >
@@ -13,11 +13,12 @@
                     <md-card-header-text>
                         <span class="md-title md-layout capitalize name"><b>{{game.name}}</b></span> <!-- prendo il nome del game -->
                     </md-card-header-text> 
-                    <div class="md-subhead descrizione">{{game.description}}</div>
+                    <div class="md-subhead descrizione">{{game.description}}</div><!-- descrizione del game -->
                 </div>
             </div>
           </md-card-header>    
           <md-card-content>
+              <!-- creo una tabella con tutte le caratteristiche del gioco che possano interessare -->
               <md-table>
                   <md-table-row>
                     <md-table-cell class="upper"><b>Numero giocatori</b></md-table-cell>

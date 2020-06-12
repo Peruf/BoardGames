@@ -20,7 +20,7 @@ export default{
         localStorage.removeItem("username");
     },
     getGames(){  //le chiamate sono asincrone
-        return axios.get("https://www.boardgameatlas.com/api/search?limit=&client_id=vuxWmH7cLW&ordered_by=name"); 
+        return axios.get("https://www.boardgameatlas.com/api/search?limit=&client_id=vuxWmH7cLW&ordered_by=popolarity"); 
      },
     getGame(name){
         return axios.get("https://www.boardgameatlas.com/api/search?name=" + name + "&client_id=vuxWmH7cLW&ordered_by=name");

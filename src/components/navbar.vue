@@ -1,4 +1,5 @@
 <template>
+    <!-- Creo la navbar che sarà sempre presente e fissa durante la navigazione -->
     <md-app-toolbar class="md-primary nav">
         <md-button to="/" class="md-icon-button ">
             <md-icon>home</md-icon>
@@ -29,9 +30,11 @@
             }
         },
         methods:{
+            // chiamo la ricerca delle corrispondenze
             search: function(text){
                 this.searchOptions = dataservice.searchGame(text);
             },
+            // reindirizzo la navigazione quando si seleziona il gioco
             go: function(found){
                 this.$router.push({ path: '/game/' + found});
             }
