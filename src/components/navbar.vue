@@ -12,7 +12,7 @@
                 </md-button>
 
                 <!-- TITOLO -->
-                <span class="md-title">Giochi</span>
+                <router-link to="/"><span class="md-title">Giochi</span></router-link>
 
             </div>
 
