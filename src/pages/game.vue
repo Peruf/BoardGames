@@ -1,5 +1,5 @@
 <template>
-  <div class="md-layout md-alignment-center-center">
+  <div class="md-layout md-alignment-top-center game">
       <!-- voglio che i game siano una card 
         https://www.boardgameatlas.com/api/search?name=Azul&client_id=vuxWmH7cLW per guardare le caratterisctiche dei giochi
       -->
@@ -121,5 +121,8 @@ export default {
 }
 .red{
     color: red;
+}
+.game{
+    height: 1000px;
 }
 </style>
