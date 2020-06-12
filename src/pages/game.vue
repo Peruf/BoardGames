@@ -104,6 +104,9 @@ export default {
 </script>
 
 <style scoped>
+.md-layout {
+    height: 100%;
+}
 
 .name{
     padding-left: 1%;
