@@ -25,3 +25,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 # BoardGames
 
 CIAO RAGAZZI UE UE
+
+Ciao Andrea ^^
