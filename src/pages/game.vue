@@ -71,6 +71,7 @@ export default {
     watch: {
         $route: function(){
             this.load();
+            this.voted = false;
         }
     },
     created: function(){
