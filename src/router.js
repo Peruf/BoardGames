@@ -4,10 +4,10 @@ import VueMaterial from 'vue-material'
 import home from '@/pages/homepage.vue'
 import game from '@/pages/game.vue'
 import Login from './pages/login.vue'
-// import page1 from './pages/page1.vue'
-// import page2 from './pages/page2.vue'
-// import page3 from './pages/page3.vue'
-// import page4 from './pages/page4.vue'
+import Year from './pages/year.vue'
+import Fast from './pages/fast.vue'
+import Top from './pages/toprated.vue'
+import About from './pages/about.vue'
 // import page5 from './pages/page5.vue'
 
 Vue.use(VueRouter)
@@ -39,21 +39,26 @@ export default new VueRouter({
             name: 'Login',
             component: Login
         },
-        // {
-        //     path: '/1',
-        //     name: '1',
-        //     component: page1,
-        // },
-        // {
-        //     path: '/2',
-        //     name: '2',
-        //     component: page2,
-        // },
-        // {
-        //     path: '/3',
-        //     name: '3',
-        //     component: page3,
-        // },
+        {
+            path: '/order_by=year',
+            name: 'OrderByYear',
+            component: Year,
+        },
+        {
+            path: '/fast_games',
+            name: 'FastGames',
+            component: Fast,
+        },
+        {
+            path: '/top_rated',
+            name: 'TopRated',
+            component: Top,
+        },
+        {
+            path: '/about_us',
+            name: 'About',
+            component: About,
+        },
         // {
         //     path: '/4',
         //     name: '4',

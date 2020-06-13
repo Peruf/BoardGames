@@ -46,29 +46,36 @@
         <md-drawer :md-active.sync="showNavigation" md-swipeable>
             <!-- TITOLO DEL MENU LATERALE -->
             <md-toolbar class="md-transparent" md-elevation="0">
-                <span class="md-title">My App name</span>
+                <span class="md-title black">Boardgames</span>
             </md-toolbar>
 
             <!-- LISTA ELEMENTI DEL MENU -->
             <md-list>
-                <md-list-item>
-                    <md-icon>move_to_inbox</md-icon>
-                    <span class="md-list-item-text">Inbox</span>
+                <md-toolbar class="md-transparent" md-elevation="0">
+                    Giochi
+                </md-toolbar>
+                <md-list-item @click="toPopular">
+                    <md-icon>grade</md-icon>
+                    <span class="md-list-item-text">Popolari</span>
                 </md-list-item>
 
-                <md-list-item>
-                    <md-icon>send</md-icon>
-                    <span class="md-list-item-text">Sent Mail</span>
+                <md-list-item @click="toYear">
+                    <md-icon>today</md-icon>
+                    <span class="md-list-item-text">Per anno</span>
                 </md-list-item>
 
-                <md-list-item>
-                    <md-icon>delete</md-icon>
-                    <span class="md-list-item-text">Trash</span>
+                <md-list-item @click="toFast">
+                    <md-icon>schedule</md-icon>
+                    <span class="md-list-item-text">Veloci</span>
                 </md-list-item>
 
-                <md-list-item>
-                    <md-icon>error</md-icon>
-                    <span class="md-list-item-text">Spam</span>
+                <md-list-item @click="toTop">
+                    <md-icon>whatshot</md-icon>
+                    <span class="md-list-item-text">Top Rated</span>
+                </md-list-item>
+                <md-list-item @click="About">
+                    <md-icon>info</md-icon>
+                    <span class="md-list-item-text">About us</span>
                 </md-list-item>
             </md-list>
 
@@ -101,7 +108,27 @@
             select: function(selected) {
                 if (selected === this.$route.params.id) return;
                 this.$router.push({path: '/game/' + selected});
-            }
+            },
+            toPopular: function(){
+                this.showNavigation = false;
+                this.$router.push({path: '/'});
+            },
+            toYear: function(){
+                this.showNavigation = false;
+                this.$router.push({path: '/order_by=year'});
+            },
+            toFast: function(){
+                this.showNavigation = false;
+                this.$router.push({path: '/fast_games'});
+            },
+            toTop: function(){
+                this.showNavigation = false;
+                this.$router.push({path: '/top_rated'});
+            },
+            About: function(){
+                this.showNavigation = false;
+                this.$router.push({path: '/about_us'});
+            },
         }
     }
 </script>
