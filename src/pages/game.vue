@@ -1,5 +1,5 @@
 <template>
-  <div class="md-layout md-alignment-center-center">
+  <div class="md-layout md-alignment-top-center game">
       <!-- voglio che i game siano una card 
         https://www.boardgameatlas.com/api/search?name=Azul&client_id=vuxWmH7cLW per guardare le caratterisctiche dei giochi
       -->
@@ -71,6 +71,7 @@ export default {
     watch: {
         $route: function(){
             this.load();
+            this.voted = false;
         }
     },
     created: function(){
@@ -104,6 +105,9 @@ export default {
 </script>
 
 <style scoped>
+.md-layout {
+    height: 100%;
+}
 
 .name{
     padding-left: 1%;
@@ -118,5 +122,8 @@ export default {
 }
 .red{
     color: red;
+}
+.game{
+    height: 1000px;
 }
 </style>

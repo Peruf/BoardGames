@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <div class="inTitolo"><span class="md-title black titolo md-align-top-left">Giochi popolari</span></div>
     <!-- Card responsive -->
     <md-card class="md-large-size-10 md-medium-size-5 md-small-size-25 md-xsmall-size-100" md-with-hover v-for="game in games" :key="game.name">
       <!-- Immagine cliccabile -->
@@ -81,6 +82,9 @@ export default {
     display: inline-block;
     vertical-align: top;
   }
+  .titolo{
+    padding-bottom: 1em;
+  }
 }
 .black {
   color: black;
@@ -91,6 +95,15 @@ export default {
 }
 .router:hover{
     text-decoration: none;
+}
+.inTitolo{
+  width: 100%;
+
+  padding-top: 1em;
+  padding-bottom: 2em;
+}
+.titolo{
+  margin-left: 1em;
 }
 </style>
 
