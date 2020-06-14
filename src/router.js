@@ -8,7 +8,7 @@ import Year from './pages/year.vue'
 import Fast from './pages/fast.vue'
 import Top from './pages/toprated.vue'
 import About from './pages/about.vue'
-// import page5 from './pages/page5.vue'
+import Notfound from './pages/notfound.vue'
 
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
@@ -59,11 +59,11 @@ export default new VueRouter({
             name: 'About',
             component: About,
         },
-        // {
-        //     path: '/4',
-        //     name: '4',
-        //     component: page4,
-        // },
+        {
+            path: '*',
+            name: '404',
+            component: Notfound,
+        },
         // {
         //     path: '/5',
         //     name: '5',
