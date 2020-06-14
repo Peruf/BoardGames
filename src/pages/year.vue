@@ -1,9 +1,14 @@
 <template>
   <div class="home">
-    <div v-for="y in years" :key="y">
-        <div class="inTitolo" name="anno"><span class="md-title black titolo md-align-top-left">{{y}}</span></div>
+    <md-menu md-size="small" md-align-trigger class="menuC md-align-top-left" md-close-on-click>
+      <md-button md-menu-trigger class="md-title menu"><b>{{anno}}</b><md-icon class="drop">arrow_drop_down</md-icon></md-button>
+
+      <md-menu-content>
+        <md-menu-item v-for="year in years" :key="year" @click="getYear(year)">{{year}}</md-menu-item>
+      </md-menu-content>
+    </md-menu>
         <!-- Card responsive -->     
-            <md-card class="md-large-size-10 md-medium-size-5 md-small-size-25 md-xsmall-size-100" md-with-hover v-for="game in giochi" :key="game.name">
+            <md-card class="md-large-size-10 md-medium-size-5 md-small-size-25 md-xsmall-size-100" md-with-hover v-for="game in games" :key="game.name">
                 <!-- Immagine cliccabile -->
                     <md-card-media md-ratio="1-1">
                         <router-link :to="'/game/' + game.name">
@@ -27,7 +32,6 @@
         
         <!-- Spinner di caricamento -->
         <md-progress-spinner md-mode="indeterminate" :md-diameter="20" :md-stroke="2" v-if="loading" class="md-accent" ></md-progress-spinner>
-    </div>
   </div>
 </template>
       
@@ -42,15 +46,13 @@ export default {
       loading: false,
       limit: 20,
       fav: false,
-      year: 2019,
+      years: [],
+      anno: 2020,
     };
   },
   created: function() {
     this.loading = true;
-    DataService.getGames().then(data => {
-      this.games = data.data.games;
-      this.loading = false;
-    });
+    this.getYear(2020);
   },
   methods: {
     favorite: function() {
@@ -60,34 +62,25 @@ export default {
         this.fav = true;
       }
     },
-    yearLess: function(){
-        this.year = this.year - 1;
-    }
-    
-  },
-  computed: {
-    years: function(){
+    getYear: function(year){
+      DataService.getGamesbyYear(year).then(data => {
+      this.games = data.data.games;
+      this.years = this.yearsPop();
+      this.anno = year;
+      this.loading = false;
+    });
+    },
+    yearsPop: function(){
         let year = [];
         let k = 0;
-        for(let i = 2019; i >= 1995; i--){
+        for(let i = 2020; i >= 1900; i--){
             year[k] = i;
             k++;
         }
         return year;
     },
-    giochi: function(){
-        let giochi= [];
-        let k = 0;
-        for(let i = 0; i < this.games.length; i++){
-            if(this.games[i].year_published == this.year){
-                giochi[k] = this.games[i];
-                k++;
-            }
-        }
-        this.yearLess();
-        return giochi;
-    }
-  }
+    
+  },
 };
 </script>
 
@@ -132,8 +125,32 @@ export default {
   padding-top: 1em;
   padding-bottom: 2em;
 }
+.menuC{
+  width: 100%;
+}
 .titolo{
   margin-left: 1em;
 }
+.md-menu {
+    margin: 24px;
+}
+.drop{
+  margin-left: 10%;
+}
+.menu{
+  border-bottom: solid 3px lightgray;
+}
+.menu:focus{
+  border-bottom: solid 3px rgb(134,217,71);
+  color: rgb(134,217,71);
+}
+.menu:focus .drop{
+  color: rgb(134,217,71);
+  transform: rotate(180deg);
+  transition-duration: 1s;
+  display: inline-block;
+  margin-left: 10%;
+}
+
 </style>
 

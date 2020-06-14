@@ -20,7 +20,10 @@ export default{
         localStorage.removeItem("username");
     },
     getGames(){  //le chiamate sono asincrone
-        return axios.get("https://www.boardgameatlas.com/api/search?limit=&client_id=vuxWmH7cLW"); 
+        return axios.get("https://www.boardgameatlas.com/api/search?client_id=vuxWmH7cLW"); 
+    },
+    getGamesbyYear(year){  //le chiamate sono asincrone
+        return axios.get("https://www.boardgameatlas.com/api/search?year_published=" + year + "&client_id=vuxWmH7cLW"); 
     },
     getGame(name){
         return axios.get("https://www.boardgameatlas.com/api/search?name=" + name + "&client_id=vuxWmH7cLW&order_by=name");
