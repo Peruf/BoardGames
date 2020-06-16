@@ -57,7 +57,6 @@
         <md-progress-spinner md-mode="indeterminate" :md-diameter="20" :md-stroke="2" v-if="loading" class="md-accent" ></md-progress-spinner>
         <md-empty-state
                 v-if="isVoid"
-                md-rounded
                 md-icon="casino"
                 md-label="Giochi non trovati"
                 md-description="La ricerca da te effettuata non ha portato nessun risultato :(">
