@@ -27,8 +27,10 @@
     </div>
 
     
+            
         <!-- Card responsive -->     
             <md-card class="md-large-size-10 md-medium-size-5 md-small-size-25 md-xsmall-size-100" md-with-hover v-for="game in games" :key="game.name">
+                
                 <!-- Immagine cliccabile -->
                     <md-card-media md-ratio="1-1">
                         <router-link :to="'/game/' + game.name">
@@ -53,6 +55,13 @@
         
         <!-- Spinner di caricamento -->
         <md-progress-spinner md-mode="indeterminate" :md-diameter="20" :md-stroke="2" v-if="loading" class="md-accent" ></md-progress-spinner>
+        <md-empty-state
+                v-if="isVoid"
+                md-rounded
+                md-icon="casino"
+                md-label="Giochi non trovati"
+                md-description="La ricerca da te effettuata non ha portato nessun risultato :(">
+        </md-empty-state>
   </div>
 </template>
       
@@ -65,13 +74,15 @@ export default {
     return {
       games: [],
       loading: false,
+      isVoid: false,
       limit: 20,
       fav: false,
       min: 1,
-      max : 4
+      max : 4,
     };
   },
   created: function() {
+    this.isVoid= false;
     this.loading = true;
     this.getPerson(this.min,this.max);
   },
@@ -84,9 +95,13 @@ export default {
       }
     },
     getPerson: function(min,max){
+      this.isVoid= false;
       DataService.getGamesbyPerson(min,max).then(data => {
       this.games = data.data.games;      
       this.loading = false;
+      if(this.games.length==0){
+          this.isVoid=true;
+      }
     });
     },    
   },
