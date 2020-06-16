@@ -1,7 +1,11 @@
 <template>
   <div class="home">
+    
     <div class="menuC">
-        <label> Numero giocatori:</label>
+        <label> <b> Numero giocatori: </b></label>
+        <br>
+        <div class="md-layout md-alignment-center-left">
+        <label>Da</label>
         <md-menu md-size="small" md-align-trigger class="md-align-top-left" md-close-on-click>
         <md-button md-menu-trigger class="md-title menu"><b>{{min}}</b><md-icon class="drop">arrow_drop_down</md-icon></md-button>
 
@@ -10,6 +14,8 @@
         </md-menu-content>
         </md-menu>
 
+        <label>a</label>
+
         <md-menu md-size="small" md-align-trigger class=" md-align-top-left" md-close-on-click>
         <md-button md-menu-trigger class="md-title menu"><b>{{max}}</b><md-icon class="drop">arrow_drop_down</md-icon></md-button>
 
@@ -17,6 +23,7 @@
             <md-menu-item v-for=" n in 20" :key="n" @click="max=n; getPerson(min,max)">{{n}}</md-menu-item>
         </md-menu-content>
         </md-menu>
+        </div>
     </div>
 
     
@@ -33,7 +40,8 @@
                         <router-link :to="'/game/' + game.name" class="router">
                         <div class="md-title black abs">{{game.name}}</div>
                         </router-link>
-                        <div class="md-subhead abs">{{game.year_published}}</div>
+                        <div class="md-subhead abs">Giocatori minimi: {{game.min_players}}</div>
+                        <div class="md-subhead abs">Giocatori massimi: {{game.max_players}}</div>
                     </md-card-header>
                     <!-- Aggiungi ai preferiti -->
                     <md-card-actions>
@@ -128,12 +136,13 @@ export default {
 }
 .menuC{
   width: 100%;
+  margin: 24px;
 }
 .titolo{
   margin-left: 1em;
 }
 .md-menu {
-    margin: 24px;
+    margin: 12px; /* dimezzato per la presenza del testo */
 }
 .drop{
   margin-left: 10%;
