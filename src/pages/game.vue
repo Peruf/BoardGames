@@ -106,7 +106,6 @@
 
                     <md-button v-if="!autorePresente" class="md-primary" v-on:click="salva">Salva commento</md-button>
                     <md-button v-if="autorePresente" class="md-primary" v-on:click="salva">Modifica commento</md-button>
-                    <!-- <md-button class="md-primary">Salva commento</md-button> -->
 
                 </md-card-content>
 
