@@ -1,16 +1,36 @@
 <template>
   <div class="home">
-    <!-- Creo un menu con tutti gli anni dal 2020 al 1900, cosicché l'utente possa scegliere i giochi dell'anno che preferisce -->
-    <md-menu md-size="small" md-align-trigger class="menuC md-align-top-left" md-close-on-click>
-      <md-button md-menu-trigger class="md-title menu"><b>{{anno}}</b><md-icon class="drop">arrow_drop_down</md-icon></md-button>
+    
+    <div class="menuC">
+        <label> <b> Numero giocatori: </b></label>
+        <br>
+        <div class="md-layout md-alignment-center-left">
+        <label>Da</label>
+        <md-menu md-size="small" md-align-trigger class="md-align-top-left" md-close-on-click>
+        <md-button md-menu-trigger class="md-title menu"><b>{{min}}</b><md-icon class="drop">arrow_drop_down</md-icon></md-button>
 
-      <md-menu-content>
-        <!-- Quando si sceglie l'anno si fa una chiamata alle api per ritornare tutti i giochi di quell'anno -->
-        <md-menu-item v-for="year in years" :key="year" @click="getYear(year)">{{year}}</md-menu-item>
-      </md-menu-content>
-    </md-menu>
+        <md-menu-content>
+            <md-menu-item v-for=" n in 20" :key="n" @click="min=n; getPerson(min,max)" >{{n}}</md-menu-item>
+        </md-menu-content>
+        </md-menu>
+
+        <label>a</label>
+
+        <md-menu md-size="small" md-align-trigger class=" md-align-top-left" md-close-on-click>
+        <md-button md-menu-trigger class="md-title menu"><b>{{max}}</b><md-icon class="drop">arrow_drop_down</md-icon></md-button>
+
+        <md-menu-content>
+            <md-menu-item v-for=" n in 20" :key="n" @click="max=n; getPerson(min,max)">{{n}}</md-menu-item>
+        </md-menu-content>
+        </md-menu>
+        </div>
+    </div>
+
+    
+            
         <!-- Card responsive -->     
             <md-card class="md-large-size-10 md-medium-size-5 md-small-size-25 md-xsmall-size-100" md-with-hover v-for="game in games" :key="game.name">
+                
                 <!-- Immagine cliccabile -->
                     <md-card-media md-ratio="1-1">
                         <router-link :to="'/game/' + game.name">
@@ -22,7 +42,8 @@
                         <router-link :to="'/game/' + game.name" class="router">
                         <div class="md-title black abs">{{game.name}}</div>
                         </router-link>
-                        <div class="md-subhead abs">{{game.year_published}}</div>
+                        <div class="md-subhead abs">Giocatori minimi: {{game.min_players}}</div>
+                        <div class="md-subhead abs">Giocatori massimi: {{game.max_players}}</div>
                     </md-card-header>
                     <!-- Aggiungi ai preferiti -->
                     <!-- <md-card-actions>
@@ -34,6 +55,12 @@
         
         <!-- Spinner di caricamento -->
         <md-progress-spinner md-mode="indeterminate" :md-diameter="20" :md-stroke="2" v-if="loading" class="md-accent" ></md-progress-spinner>
+        <md-empty-state
+                v-if="isVoid"
+                md-icon="casino"
+                md-label="Giochi non trovati"
+                md-description="La ricerca da te effettuata non ha portato nessun risultato :(">
+        </md-empty-state>
   </div>
 </template>
       
@@ -41,43 +68,34 @@
 import DataService from "@/dataservice.js";
 
 export default {
-  name: "HomePage",
+  name: "Person",
   data: function() {
     return {
       games: [],
       loading: false,
+      isVoid: false,
       limit: 20,
       //fav: false,
-      years: [],
-      anno: 2020, //di default l'anno è 2020
+      min: 1,
+      max : 4,
     };
   },
   created: function() {
+    this.isVoid= false;
     this.loading = true;
-    this.getYear(this.anno);
+    this.getPerson(this.min,this.max);
   },
   methods: {
-    // prendo tutti i giochi che sono usciti l'anno inserito dall'utente
-    getYear: function(year){
-      DataService.getGamesbyYear(year).then(data => {
-      this.games = data.data.games;
-      this.years = this.yearsPop();
-      // imposto l'anno nell'anno scelto così da poterlo visualizzare nel md-menu, che è prima del v-for
-      this.anno = year;
+    getPerson: function(min,max){
+      this.isVoid= false;
+      DataService.getGamesbyPerson(min,max).then(data => {
+      this.games = data.data.games;      
       this.loading = false;
+      if(this.games.length==0){
+          this.isVoid=true;
+      }
     });
-    },
-    // creo un array con tutti gli anni dal 2020 al 1900
-    yearsPop: function(){
-        let year = [];
-        let k = 0;
-        for(let i = 2020; i >= 1900; i--){
-            year[k] = i;
-            k++;
-        }
-        return year;
-    },
-    
+    },    
   },
 };
 </script>
@@ -96,6 +114,17 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
+@media only screen and (max-width: 600px) {
+  .md-card {
+    width: 95%;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .titolo{
+    padding-bottom: 1em;
+  }
+}
 .black {
   color: black;
   text-decoration: none;
@@ -108,17 +137,19 @@ export default {
 }
 .inTitolo{
   width: 100%;
+
   padding-top: 1em;
   padding-bottom: 2em;
 }
 .menuC{
   width: 100%;
+  margin: 24px;
 }
 .titolo{
   margin-left: 1em;
 }
 .md-menu {
-    margin: 24px;
+    margin: 12px; /* dimezzato per la presenza del testo */
 }
 .drop{
   margin-left: 10%;
@@ -126,12 +157,10 @@ export default {
 .menu{
   border-bottom: solid 3px lightgray;
 }
-/* Quando il menu ha il focus diventa del verde md-accent */
 .menu:focus{
   border-bottom: solid 3px rgb(134,217,71);
   color: rgb(134,217,71);
 }
-/* Se c'è il focus sul menu, l'icona diventa del verde dell'md-accent e ruota di 180° */
 .menu:focus .drop{
   color: rgb(134,217,71);
   transform: rotate(180deg);
@@ -139,21 +168,10 @@ export default {
   display: inline-block;
   margin-left: 10%;
 }
-@media only screen and (max-width: 600px) {
-  .md-card {
-    width: 95%;
-    margin: 10px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  .titolo{
-    padding-bottom: 1em;
-  }
-}
 .md-title{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; 
 }
-</style>
 
+</style>

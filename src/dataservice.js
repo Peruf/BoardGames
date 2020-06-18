@@ -25,6 +25,9 @@ export default{
     getGamesbyYear(year){  //le chiamate sono asincrone
         return axios.get("https://www.boardgameatlas.com/api/search?year_published=" + year + "&client_id=vuxWmH7cLW"); 
     },
+    getGamesbyPerson(min, max){  //le chiamate sono asincrone
+        return axios.get("https://www.boardgameatlas.com/api/search?min_players=" + min +"&max_players="+ max + "&client_id=vuxWmH7cLW"); 
+    },
     getGame(name){
         return axios.get("https://www.boardgameatlas.com/api/search?name=" + name + "&client_id=vuxWmH7cLW");
     },
@@ -69,6 +72,7 @@ export default{
             username: localStorage.getItem('username')
         })
     },
+    // PER LA PAGINA GAME.VUE
     cercaCommenti(gioco, autore) {
         
         // FUNZIONE PER PRENDERE TUTTI I COMMENTI E CONTROLLARE SE L'UTENTE HA GIA' COMMENTATO E COSA
@@ -127,5 +131,33 @@ export default{
         .collection('commenti')
         .doc(doc)
         .delete();
+    },
+    // metodi per gestire l'array dei preferiti 
+
+    setFavorite(id, valore){ // id =id del gioco, valore= è preferito? (booleano)  Metodo che serve per caricare/eliminare su database un gioco preferito
+        let key=id+localStorage.getItem('username'); // creo una chiave per chiamare il documento del database come voglio io in modo tale che non sia lui a decidere (id gioco piu nome del utente)
+        if (valore) {
+            /* return */ db.collection('preferiti').doc(key).set({ //query per inserire
+                username: localStorage.getItem('username'),
+                id: id,
+                favorite: true,
+            })
+        } else {
+            db.collection("preferiti").doc(key).delete(); // query per eliminarlo 
+        }
+    },
+
+    getFavorite(){ // Salvo in array tutti i giochi preferiti che sono presenti sul database
+        let fav=[];
+        let idT=null;
+        let f=null;
+                db.collection('preferiti').where('username', '==', localStorage.getItem('username')).get().then((data) => {
+                    data.forEach(doc => {
+                        idT=doc.data().id;
+                        f=doc.data().favorite;
+                        fav[idT]=f; // array è costruito: array[ id del gioco ]= è favorito? (booleano)
+                    });
+                });
+        return fav; //ritorno l'array alla pagina home che lo salverà nel suo array
     },
 }
