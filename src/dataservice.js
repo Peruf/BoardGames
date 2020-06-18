@@ -69,4 +69,54 @@ export default{
             username: localStorage.getItem('username')
         })
     },
+    cercaCommenti(gioco) {
+        console.log(" - Ora cercherò tutti i commenti per il gioco in questione nel database");
+        console.log(" - Ecco il gioco:" + gioco);
+
+        return db
+        .collection('commenti')
+        .where('gioco', '==', gioco)
+        .get().then((data) => {
+            
+            console.log(" - Dovrei aver preso dei dati:");
+            
+            let arrayCommenti = [];
+
+            data.forEach(doc => {
+                console.log("   -> " + doc.data().commento);
+                arrayCommenti.push(doc.data().commento);
+
+            });
+
+            console.log(" - Ecco l'array che si è creato con tutti i commenti:");
+            console.log(arrayCommenti);
+
+            console.log("<<< FINE DELLA FUNZIONE CERCA COMMENTI >>>");
+            return {
+                arrayCommenti: arrayCommenti
+            }
+            
+        });
+    },
+    saveCommento(testo, autore, gioco) {
+        console.log("<<< Sono all'interno di SAVE COMMENTO >>>");
+
+        console.log("- Ora andrò a salvare i seguenti dati nel database:");
+        console.log("  -> testo: " + testo);
+        console.log("  -> autore: " + autore);
+        console.log("  -> gioco: " + gioco);
+
+        let nomeDoc = autore+"-"+gioco;
+        console.log("Il nome del doc creato sarà: " + nomeDoc);
+
+        return db
+        .collection('commenti')
+        .doc(nomeDoc)
+        .set({
+
+            commento: testo,
+            autore: autore,
+            gioco: gioco
+        });
+    }
 }

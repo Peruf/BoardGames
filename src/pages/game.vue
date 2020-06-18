@@ -68,13 +68,19 @@
                 </md-card-header>
 
                 <md-card-content>
-                    <md-table>
-                        <md-table-row v-for="n in [1, 2, 3, 4, 5]" :key="n">
+
+                    <!-- NEL CASO IN CUI NON CI SIANO COMMENTI -->
+                    <span v-if="!esistenzaCommenti">Non ci sono commenti per questo gioco al momento. Scrivine uno tu!</span>
+                    
+                    <!-- TABELLA CON I COMMENTI -->
+                    <md-table v-if="esistenzaCommenti">
+                        <md-table-row v-for="commentoDB in commentiDB" :key="commentoDB">
                             <md-table-cell>
-                                Commentino
+                                {{ commentoDB }}
                             </md-table-cell>
                         </md-table-row>
                     </md-table>
+
                 </md-card-content>
 
             </md-card-area>
@@ -93,10 +99,11 @@
                     
                     <md-field>
                         <label>Commento</label>
-                        <md-textarea></md-textarea>
+                        <md-textarea v-model="commento"></md-textarea>
                     </md-field>
 
                     <md-button class="md-primary" v-on:click="salva">Salva commento</md-button>
+                    <!-- <md-button class="md-primary">Salva commento</md-button> -->
 
                 </md-card-content>
 
@@ -117,7 +124,10 @@ export default {
         return{
             game: null,
             stats: {},
-            voted: false
+            voted: false,
+            commentiDB: [],
+            esistenzaCommenti: false,
+            commento: null
         }
     },
     watch: {
@@ -131,11 +141,41 @@ export default {
     },
     methods: {
         load: function(){
+            console.log("LOAD");
+            
             dataservice.getGame(this.$route.params.name).then((data) => {
                 this.game = data.data.games[0];
-                //console.log(this.game);
-                dataservice.getVote(this.game.name).then(stats => {
-                    this.stats = stats;
+                console.log("Gioco caricato!");
+                
+                // PARTE PER I VOTI
+                // dataservice.getVote(this.game.name).then(stats => {
+                //     this.stats = stats;
+                // });
+
+                // PARTE PER I COMMENTI
+                dataservice.cercaCommenti(this.game.name).then(data =>{
+                    console.log("<<< Siamo tornati in GAME! >>>");
+                    
+                    console.log("Questo è l'array che è tornato:");
+                    console.log(data.arrayCommenti);
+                    console.log("Esso contiene " + data.arrayCommenti.length + " elementi.");
+
+                    this.commentiDB = [];
+
+                    if (data.arrayCommenti.length > 0) {
+
+                        for (let i=0; i<data.arrayCommenti.length; i++) {
+                        
+                            this.commentiDB.push(data.arrayCommenti[i]);
+                            
+                        }
+
+                        this.esistenzaCommenti = true;
+
+                    } else {
+                        this.esistenzaCommenti = false;
+                    }
+
                 });
                 
             });
@@ -152,6 +192,19 @@ export default {
                 this.voted = false;
             }
         },
+        salva: function() {
+            // console.log(localStorage.getItem("username"));
+            console.log('Questo è il commento che è stato scritto da ' + localStorage.getItem("username") + ': ' + this.commento);
+            console.log("Per il gioco: " + this.game.name);
+
+            dataservice.saveCommento(this.commento, localStorage.getItem("username"), this.game.name);
+
+            console.log("TERMINE DEL SALVATAGGIO");
+
+            this.load();
+
+
+        }
     }
 }
 </script>
