@@ -79,7 +79,7 @@ export default{
     setFavorite(id, valore){ // id =id del gioco, valore= è preferito? (booleano)  Metodo che serve per caricare/eliminare su database un gioco preferito
         let key=id+localStorage.getItem('username'); // creo una chiave per chiamare il documento del database come voglio io in modo tale che non sia lui a decidere (id gioco piu nome del utente)
         if (valore) {
-            /* return */ db.collection('preferiti').doc(key).set({ //query per inserire
+             /* return */ db.collection('preferiti').doc(key).set({ //query per inserire
                 username: localStorage.getItem('username'),
                 id: id,
                 favorite: true,
@@ -97,7 +97,7 @@ export default{
                     data.forEach(doc => {
                         idT=doc.data().id;
                         f=doc.data().favorite;
-                        fav[idT]=f; // array è costruito: array[ id del gioco ]= è favorito? (booleano)
+                        fav[idT]=f; // array è costruito: array[ id del gioco ]= è preferito? (booleano)
                     });
                 });
         return fav; //ritorno l'array alla pagina home che lo salverà nel suo array

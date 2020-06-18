@@ -17,11 +17,11 @@
         <div class="md-subhead abs">{{game.year_published}}</div>
       </md-card-header>
       <!-- Aggiungi ai preferiti -->
-      <md-card-actions>
+      <!-- <md-card-actions>
         <md-button class="md-icon-button" @click="checkFavorite(game.id)"> 
-          <md-icon>{{ (fav[game.id]==true)? 'favorite':'favorite_outline' }}</md-icon> <!-- se è true mi mette l'icona piena, se è false me la mette vuota -->
+          <md-icon >{{ (fav[game.id]==true)? 'favorite' : 'favorite_border' }}</md-icon>  se è true mi mette l'icona piena, se è false me la mette vuota 
         </md-button>
-      </md-card-actions>
+      </md-card-actions> -->
     </md-card>
     <!-- Spinner di caricamento -->
     <md-progress-spinner md-mode="indeterminate" :md-diameter="20" :md-stroke="2" v-if="loading" class="md-accent" ></md-progress-spinner>
@@ -38,30 +38,45 @@ export default {
       games: [],
       loading: false,
       limit: 20,
-      fav: []
+      // fav: [],
     };
   },
-  watch:{ // dovrebbe aggiornarmi i cuori
-    fav: function(){
-      console.log("e cambiato");
-    }
-  },
+  // watch:{ // dovrebbe aggiornarmi i cuori
+  //   fav: function(){
+  //     this.loading=true;
+  //     this.create();
+  //     console.log("e cambiato");
+  //     this.loading=false;
+  //   }
+  // },
   created: function() {
     this.loading = true;
     DataService.getGames().then(data => {
       this.games = data.data.games;
       console.log(this.games);
       this.loading = false;
-      this.fav=DataService.getFavorite();
+      // this.fav=DataService.getFavorite();
     });
   },
   methods: {
-    checkFavorite: function(id){ // metodo che viene attivato quando si clicca sul cuore 
-      console.log("dentro a check "+ id + " - " +!(this.fav[id]) );
-      DataService.setFavorite(id,!(this.fav[id]));
-      this.fav[id]=!(this.fav[id]); // aggiorno il valore 
-      this.fav=DataService.getFavorite(); // risetto fav con i cambiamenti --> parte il watcher
-    },
+    // checkFavorite: function(id){ // metodo che viene attivato quando si clicca sul cuore 
+    //   console.log("dentro a check "+ id + " - " +!(this.fav[id]) );
+    //   if (this.fav[id] == true) {
+    //     this.fav[id] = false;
+    //   } else {
+    //     this.fav[id] = true;
+    //   }
+    //   DataService.setFavorite(id,this.fav[id]);
+    //   this.fav=DataService.getFavorite(); // risetto fav con i cambiamenti --> parte il watcher
+    // },
+    // create: function() {
+    //   this.loading = true;
+    //   DataService.getGames().then(data => {
+    //     this.games = data.data.games;
+    //     //console.log(this.games);
+    //     this.loading = false;        
+    //   });
+    // }
   }
   
 };
@@ -111,6 +126,11 @@ export default {
 }
 .titolo{
   margin-left: 1em;
+}
+.md-title{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 </style>
 

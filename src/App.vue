@@ -27,4 +27,7 @@ export default {
 
 
 <style>
+.md-app{
+  height: 100vh!important;
+}
 </style>
