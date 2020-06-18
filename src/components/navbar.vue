@@ -59,9 +59,9 @@
                     <span class="md-list-item-text">Popolari</span>
                 </md-list-item>
 
-                <md-list-item @click="toYear">
-                    <md-icon>today</md-icon>
-                    <span class="md-list-item-text">Per anno</span>
+                <md-list-item @click="toTop">
+                    <md-icon>whatshot</md-icon>
+                    <span class="md-list-item-text">Top Rated</span>
                 </md-list-item>
 
                 <md-list-item @click="toFast">
@@ -69,10 +69,21 @@
                     <span class="md-list-item-text">Veloci</span>
                 </md-list-item>
 
-                <md-list-item @click="toTop">
-                    <md-icon>whatshot</md-icon>
-                    <span class="md-list-item-text">Top Rated</span>
+                <md-list-item @click="toYear">
+                    <md-icon>today</md-icon>
+                    <span class="md-list-item-text">Per anno</span>
                 </md-list-item>
+
+                <md-list-item @click="toPerson">
+                    <md-icon>supervisor_account</md-icon>
+                    <span class="md-list-item-text">Per giocatori</span>
+                </md-list-item>
+
+                <md-list-item @click="toFavorite">
+                    <md-icon>favorite</md-icon>
+                    <span class="md-list-item-text">Preferiti</span>
+                </md-list-item>
+
                 <md-list-item @click="About">
                     <md-icon>info</md-icon>
                     <span class="md-list-item-text">About us</span>
@@ -116,6 +127,14 @@
             toYear: function(){
                 this.showNavigation = false;
                 this.$router.push({path: '/order_by=year'});
+            },
+            toPerson: function(){
+                this.showNavigation = false;
+                this.$router.push({path: '/order_by=person'});
+            },
+            toFavorite: function(){
+                this.showNavigation = false;
+                this.$router.push({path: '/favorite'});
             },
             toFast: function(){
                 this.showNavigation = false;

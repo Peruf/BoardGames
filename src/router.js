@@ -9,6 +9,8 @@ import Fast from './pages/fast.vue'
 import Top from './pages/toprated.vue'
 import About from './pages/about.vue'
 import Notfound from './pages/notfound.vue'
+import Favorite from './pages/favorite.vue'
+import Person from './pages/person.vue'
 
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
@@ -45,6 +47,11 @@ export default new VueRouter({
             component: Year,
         },
         {
+            path: '/order_by=person',
+            name: 'OrderByYear',
+            component: Person,
+        },
+        {
             path: '/fast_games',
             name: 'FastGames',
             component: Fast,
@@ -53,6 +60,11 @@ export default new VueRouter({
             path: '/top_rated',
             name: 'TopRated',
             component: Top,
+        },
+        {
+            path: '/favorite',
+            name: 'Favorite',
+            component: Favorite,
         },
         {
             path: '/about_us',
