@@ -99,13 +99,30 @@
                     
                     <span v-if="autorePresente">Hai già commentato questo gioco!</span>
                     
-                    <md-field>
+                    <!-- CON ERRORI -->
+                    <md-field v-if="errore" class="md-invalid">
                         <label>Commento</label>
-                        <md-textarea v-model="commento"></md-textarea>
+                        <md-textarea v-model="commento" required></md-textarea>
+                        <span class="md-error">Non hai scritto niente!</span>
+                    </md-field>
+                    <!-- SENZA ERRORI -->
+                    <md-field v-if="!errore">
+                        <label>Commento</label>
+                        <md-textarea v-model="commento" required></md-textarea>
                     </md-field>
 
                     <md-button v-if="!autorePresente" class="md-primary" v-on:click="salva">Salva commento</md-button>
                     <md-button v-if="autorePresente" class="md-primary" v-on:click="salva">Modifica commento</md-button>
+                    <md-button v-if="autorePresente" class="md-primary" @click="active = true">Elimina commento</md-button>
+
+                    <md-dialog-confirm
+                        :md-active.sync="active"
+                        md-title="Vuoi davvero eliminare il tuo commento?"
+                        md-content="Una volta eliminato non potrà più essere recuperato e bla bla bla"
+                        md-confirm-text="Elimina commento"
+                        md-cancel-text="Annulla"
+                        @md-confirm="onConfirm" 
+                    />
 
                 </md-card-content>
 
@@ -127,10 +144,12 @@ export default {
             game: null,
             stats: {},
             voted: false,
-            commentiDB: [],
-            esistenzaCommenti: false,
-            autorePresente: false,
-            commento: null,
+            commentiDB: [], //per contenere i commenti
+            esistenzaCommenti: false, //per controllare se esistono commenti
+            autorePresente: false, //per controllare se l'autore ha già scritto o no un commento
+            commento: null, // il commento scritto dall'utente
+            errore: false, //nel caso che lascino il campo per il commento vuoto
+            active: false, //per il messaggio "sei sicuro di voler cancellare?"
             
         }
     },
@@ -205,18 +224,37 @@ export default {
             }
         },
         salva: function() {
-            // console.log(localStorage.getItem("username"));
-            console.log('Questo è il commento che è stato scritto da ' + localStorage.getItem("username") + ': ' + this.commento);
-            console.log("Per il gioco: " + this.game.name);
+            
+            if (this.commento) {
+                this.errore = false;
+                console.log('Questo è il commento che è stato scritto da ' + localStorage.getItem("username") + ': ' + this.commento);
+                console.log("Per il gioco: " + this.game.name);
 
-            dataservice.saveCommento(this.commento, localStorage.getItem("username"), this.game.name);
+                dataservice.saveCommento(this.commento, localStorage.getItem("username"), this.game.name);
 
-            console.log("TERMINE DEL SALVATAGGIO");
+                console.log("TERMINE DEL SALVATAGGIO");
 
+                this.load();
+            } else {
+                console.log("Non è stato scritto nessun commento!");
+                this.errore = true;
+            }
+
+        },
+        onConfirm () {
+            let doc = "";
+            doc = localStorage.getItem("username") +"-"+ this.game.name;
+            
+            console.log("Andiamo ad eliminare il doc: " + doc);
+
+            dataservice.cancellaCommento(doc);
+
+            console.log("<<< ELIMINAZIONE EFFETTUATA >>>");
+
+            this.commento = null;
             this.load();
 
-
-        }
+        },
     }
 }
 </script>

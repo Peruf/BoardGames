@@ -135,5 +135,12 @@ export default{
             autore: autore,
             gioco: gioco
         });
-    }
+    },
+    cancellaCommento(doc) {
+        console.log("<<< SIAMO DENTRO CANCELLA COMMENTO >>>");
+        return db
+        .collection('commenti')
+        .doc(doc)
+        .delete();
+    },
 }
