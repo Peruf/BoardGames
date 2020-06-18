@@ -18,8 +18,8 @@
       </md-card-header>
       <!-- Aggiungi ai preferiti -->
       <md-card-actions>
-        <md-button class="md-icon-button" >
-          <md-icon >favorite_outline</md-icon>
+        <md-button class="md-icon-button" @click="checkFavorite(game.id)"> 
+          <md-icon>{{ (fav[game.id]==true)? 'favorite':'favorite_outline' }}</md-icon> <!-- se è true mi mette l'icona piena, se è false me la mette vuota -->
         </md-button>
       </md-card-actions>
     </md-card>
@@ -38,8 +38,13 @@ export default {
       games: [],
       loading: false,
       limit: 20,
-      fav: false
+      fav: []
     };
+  },
+  watch:{ // dovrebbe aggiornarmi i cuori
+    fav: function(){
+      console.log("e cambiato");
+    }
   },
   created: function() {
     this.loading = true;
@@ -47,18 +52,20 @@ export default {
       this.games = data.data.games;
       console.log(this.games);
       this.loading = false;
+      this.fav=DataService.getFavorite();
     });
   },
   methods: {
-    favorite: function() {
-      if (this.fav == true) {
-        this.fav = false;
-      } else {
-        this.fav = true;
-      }
-    }
+    checkFavorite: function(id){ // metodo che viene attivato quando si clicca sul cuore 
+      console.log("dentro a check "+ id + " - " +!(this.fav[id]) );
+      DataService.setFavorite(id,!(this.fav[id]));
+      this.fav[id]=!(this.fav[id]); // aggiorno il valore 
+      this.fav=DataService.getFavorite(); // risetto fav con i cambiamenti --> parte il watcher
+    },
   }
+  
 };
+
 </script>
 
 

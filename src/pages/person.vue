@@ -68,7 +68,7 @@
 import DataService from "@/dataservice.js";
 
 export default {
-  name: "HomePage",
+  name: "Person",
   data: function() {
     return {
       games: [],
