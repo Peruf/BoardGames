@@ -26,7 +26,7 @@ export default{
         return axios.get("https://www.boardgameatlas.com/api/search?year_published=" + year + "&client_id=vuxWmH7cLW"); 
     },
     getGame(name){
-        return axios.get("https://www.boardgameatlas.com/api/search?name=" + name + "&client_id=vuxWmH7cLW&order_by=name");
+        return axios.get("https://www.boardgameatlas.com/api/search?name=" + name + "&client_id=vuxWmH7cLW");
     },
     searchGioco(text) {
         if (!text || text.length < 2) {
