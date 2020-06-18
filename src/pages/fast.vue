@@ -9,7 +9,7 @@
           <img :src="game.images.original" class="APIimg" />
         </router-link>
       </md-card-media>
-      <!-- Titolo e anno di pubblicazione -->
+      <!-- Titolo e durata del gioco -->
       <md-card-header>
         <router-link :to="'/game/' + game.name" class="router">
           <div class="md-title black abs">{{game.name}}</div>
@@ -47,11 +47,15 @@ export default {
     DataService.getGames().then(data => {
         let k = 0;
         for(let i = 0; i < data.data.games.length; i++){
+          //se il gioco ha una durata minima di massimo 30 min e una massima di massimo 60 min, 
+          //viene reputato come gioco veloce e lo si aggiunge all'array con tutti i giochi
+          //se dura di più non viene aggiunto 
             if(data.data.games[i].min_playtime <= 30 && data.data.games[i].max_playtime <= 60){
                 this.games[k] = data.data.games[i];
                 k++
             }
         }
+        //bubblesort per ordinare l'array
         let t = 0
         for(let i = 0; i < this.games.length; i++)  
         { 
@@ -70,13 +74,6 @@ export default {
     });
   },
   methods: {
-    favorite: function() {
-      if (this.fav == true) {
-        this.fav = false;
-      } else {
-        this.fav = true;
-      }
-    }
   },
 };
 </script>

@@ -1,9 +1,11 @@
 <template>
   <div class="home">
+    <!-- Creo un menu con tutti gli anni dal 2020 al 1900, cosicché l'utente possa scegliere i giochi dell'anno che preferisce -->
     <md-menu md-size="small" md-align-trigger class="menuC md-align-top-left" md-close-on-click>
       <md-button md-menu-trigger class="md-title menu"><b>{{anno}}</b><md-icon class="drop">arrow_drop_down</md-icon></md-button>
 
       <md-menu-content>
+        <!-- Quando si sceglie l'anno si fa una chiamata alle api per ritornare tutti i giochi di quell'anno -->
         <md-menu-item v-for="year in years" :key="year" @click="getYear(year)">{{year}}</md-menu-item>
       </md-menu-content>
     </md-menu>
@@ -47,29 +49,25 @@ export default {
       limit: 20,
       fav: false,
       years: [],
-      anno: 2020,
+      anno: 2020, //di default l'anno è 2020
     };
   },
   created: function() {
     this.loading = true;
-    this.getYear(2020);
+    this.getYear(this.anno);
   },
   methods: {
-    favorite: function() {
-      if (this.fav == true) {
-        this.fav = false;
-      } else {
-        this.fav = true;
-      }
-    },
+    // prendo tutti i giochi che sono usciti l'anno inserito dall'utente
     getYear: function(year){
       DataService.getGamesbyYear(year).then(data => {
       this.games = data.data.games;
       this.years = this.yearsPop();
+      // imposto l'anno nell'anno scelto così da poterlo visualizzare nel md-menu, che è prima del v-for
       this.anno = year;
       this.loading = false;
     });
     },
+    // creo un array con tutti gli anni dal 2020 al 1900
     yearsPop: function(){
         let year = [];
         let k = 0;
@@ -98,17 +96,6 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-@media only screen and (max-width: 600px) {
-  .md-card {
-    width: 95%;
-    margin: 10px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  .titolo{
-    padding-bottom: 1em;
-  }
-}
 .black {
   color: black;
   text-decoration: none;
@@ -121,7 +108,6 @@ export default {
 }
 .inTitolo{
   width: 100%;
-
   padding-top: 1em;
   padding-bottom: 2em;
 }
@@ -140,10 +126,12 @@ export default {
 .menu{
   border-bottom: solid 3px lightgray;
 }
+/* Quando il menu ha il focus diventa del verde md-accent */
 .menu:focus{
   border-bottom: solid 3px rgb(134,217,71);
   color: rgb(134,217,71);
 }
+/* Se c'è il focus sul menu, l'icona diventa del verde dell'md-accent e ruota di 180° */
 .menu:focus .drop{
   color: rgb(134,217,71);
   transform: rotate(180deg);
@@ -151,6 +139,16 @@ export default {
   display: inline-block;
   margin-left: 10%;
 }
-
+@media only screen and (max-width: 600px) {
+  .md-card {
+    width: 95%;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .titolo{
+    padding-bottom: 1em;
+  }
+}
 </style>
 
