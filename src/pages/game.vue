@@ -11,7 +11,7 @@
                 <!-- IMMAGINE DEL GIOCO -->
                 <md-card-media md-ratio="16:9">
                     <!-- <img src="https://vuematerial.io/assets/examples/card-example.jpg" alt="Coffee House"> -->
-                    <img :src="game.images.medium" alt="Game image"> <!-- url dinamico del game -->
+                    <img :src="game.images.large" alt="Game image"> <!-- url dinamico del game -->
                 </md-card-media>
 
                 <!-- TITOLO GIOCO -->
@@ -130,6 +130,10 @@
             <!-- ZONA COMMENTO PERSONALE -->
 
       </md-card>
+
+    <md-snackbar md-position="center" :md-active.sync="mostraSnackbar" md-persistent>
+        <span> {{ msgSnackbar }} </span>
+    </md-snackbar>
       
   </div>
 </template>
@@ -150,6 +154,8 @@ export default {
             commento: null, // il commento scritto dall'utente
             errore: false, //nel caso che lascino il campo per il commento vuoto
             active: false, //per il messaggio "sei sicuro di voler cancellare?"
+            mostraSnackbar: false, //per lo snackbar... in caso si abbia fame
+            msgSnackbar: "PROVA", // messaggio per lo snackbar
             
         }
     },
@@ -232,9 +238,13 @@ export default {
 
                 dataservice.saveCommento(this.commento, localStorage.getItem("username"), this.game.name);
 
-                console.log("TERMINE DEL SALVATAGGIO");
-
                 this.load();
+
+                console.log("TERMINE DEL SALVATAGGIO");
+                this.msgSnackbar = "Commento postato!";
+                this.mostraSnackbar = true;
+
+
             } else {
                 console.log("Non è stato scritto nessun commento!");
                 this.errore = true;
@@ -253,6 +263,9 @@ export default {
 
             this.commento = null;
             this.load();
+            
+            this.msgSnackbar = "Commento eliminato!";
+            this.mostraSnackbar = true;
 
         },
     }
