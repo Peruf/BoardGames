@@ -23,11 +23,11 @@
                         <div class="md-subhead abs">{{game.year_published}}</div>
                     </md-card-header>
                     <!-- Aggiungi ai preferiti -->
-                    <md-card-actions>
+                    <!-- <md-card-actions>
                         <md-button class="md-icon-button" >
                         <md-icon >favorite_outline</md-icon>
                         </md-button>
-                    </md-card-actions>
+                    </md-card-actions> -->
             </md-card>
         
         <!-- Spinner di caricamento -->
@@ -45,7 +45,6 @@ export default {
       games: [],
       loading: false,
       limit: 20,
-      fav: false,
       years: [],
       anno: 2020,
     };
@@ -150,6 +149,11 @@ export default {
   transition-duration: 1s;
   display: inline-block;
   margin-left: 10%;
+}
+.md-title{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 
 </style>

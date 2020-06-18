@@ -46,11 +46,11 @@
                         <div class="md-subhead abs">Giocatori massimi: {{game.max_players}}</div>
                     </md-card-header>
                     <!-- Aggiungi ai preferiti -->
-                    <md-card-actions>
+                    <!-- <md-card-actions>
                         <md-button class="md-icon-button" >
                         <md-icon >favorite_outline</md-icon>
                         </md-button>
-                    </md-card-actions>
+                    </md-card-actions> -->
             </md-card>
         
         <!-- Spinner di caricamento -->
@@ -75,7 +75,6 @@ export default {
       loading: false,
       isVoid: false,
       limit: 20,
-      fav: false,
       min: 1,
       max : 4,
     };
@@ -86,13 +85,6 @@ export default {
     this.getPerson(this.min,this.max);
   },
   methods: {
-    favorite: function() {
-      if (this.fav == true) {
-        this.fav = false;
-      } else {
-        this.fav = true;
-      }
-    },
     getPerson: function(min,max){
       this.isVoid= false;
       DataService.getGamesbyPerson(min,max).then(data => {
@@ -174,6 +166,11 @@ export default {
   transition-duration: 1s;
   display: inline-block;
   margin-left: 10%;
+}
+.md-title{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 
 </style>
