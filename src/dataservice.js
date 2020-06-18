@@ -72,8 +72,66 @@ export default{
             username: localStorage.getItem('username')
         })
     },
+    // PER LA PAGINA GAME.VUE
+    cercaCommenti(gioco, autore) {
+        
+        // FUNZIONE PER PRENDERE TUTTI I COMMENTI E CONTROLLARE SE L'UTENTE HA GIA' COMMENTATO E COSA
 
+        return db
+        .collection('commenti')
+        .where('gioco', '==', gioco)
+        .get().then((data) => {
+            
+            let arrayCommenti = [];
+            let autorePresente = false;
+            let commentoAutore = null;
 
+            data.forEach(doc => {
+                
+                arrayCommenti.push(doc.data().commento);    // metto ogni commento nell'array
+
+                if (doc.data().autore === autore) {         // controllo se c'è un commento dell'utente
+                    autorePresente = true;
+                    commentoAutore = doc.data().commento;
+                }
+
+            });
+
+            return {
+                
+                arrayCommenti: arrayCommenti,
+                autorePresente: autorePresente,
+                commentoAutore: commentoAutore
+
+            }
+            
+        });
+    },
+    saveCommento(testo, autore, gioco) {
+        
+        // FUNZIONE PER SALVARE IL COMMENTO NEL DB
+
+        let nomeDoc = autore+"-"+gioco; // creo il nome per il documento in cui salvare il commento
+
+        return db
+        .collection('commenti')
+        .doc(nomeDoc)
+        .set({
+
+            commento: testo,
+            autore: autore,
+            gioco: gioco
+        });
+    },
+    cancellaCommento(doc) {
+
+        // FUNZIONE PER ELIMINARE IL COMMENTO DAL DB
+        
+        return db
+        .collection('commenti')
+        .doc(doc)
+        .delete();
+    },
     // metodi per gestire l'array dei preferiti 
 
     setFavorite(id, valore){ // id =id del gioco, valore= è preferito? (booleano)  Metodo che serve per caricare/eliminare su database un gioco preferito
