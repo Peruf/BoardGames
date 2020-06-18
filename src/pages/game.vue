@@ -27,10 +27,34 @@
 
                 </md-card-header>
 
-                <!-- DESCRIZIONE GIOCO -->
+                
                 <md-card-content>
-                    <div>qui le stelline direi</div>
+                    <!-- STELLINE E VALUTAZIONE -->
+                    <div>
+                        <h3 v-if="stats && stats.total > 0">
+                            <b>Voti totali:</b>
+                            {{stats.total}}
+                            <br />
+                            <b>Media voti:</b>
+                            {{stats.avg}}
+                        </h3>
+
+                        <h3 v-if="stats.total == 0 || !stats">Non ci sono ancora voti</h3>
+
+                        <span>Mio voto:</span>
+
+                        <span v-for="s in [1,2,3,4,5]" :key="s" @click="vote(s)">
+                            <md-icon>{{(stats.userVote >= s) ? 'star' : 'star_outline' }}</md-icon>
+                        </span>
+
+                        <span class="red md-subhead" v-if="voted">Hai già votato</span>
+
+                    </div>
+                    <!-- STELLINE E VALUTAZIONE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
+                    
                     <br>
+                    
+                    <!-- DESCRIZIONE GIOCO -->
                     {{game.description}} <!-- descrizione del game -->
                 </md-card-content>
 
@@ -177,9 +201,9 @@ export default {
                 console.log("Gioco caricato!");
                 
                 // PARTE PER I VOTI
-                // dataservice.getVote(this.game.name).then(stats => {
-                //     this.stats = stats;
-                // });
+                dataservice.getVote(this.game.name).then(stats => {
+                    this.stats = stats;
+                });
 
                 // PARTE PER I COMMENTI ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 dataservice.cercaCommenti(this.game.name, localStorage.getItem("username")).then(data =>{
