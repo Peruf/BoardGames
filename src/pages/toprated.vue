@@ -9,7 +9,7 @@
           <img :src="game.images.original" class="APIimg" />
         </router-link>
       </md-card-media>
-      <!-- Titolo e anno di pubblicazione -->
+      <!-- Titolo e user rating arrotondato al primo decimale -->
       <md-card-header>
         <router-link :to="'/game/' + game.name" class="router">
           <div class="md-title black abs">{{game.name}}</div>
@@ -46,6 +46,7 @@ export default {
     DataService.getGames().then(data => {
         let k = 0;
         for(let i = 0; i < data.data.games.length; i++){
+            // un gioco si può considerare top rated se ha uno user rating > 3
             if(data.data.games[i].average_user_rating > 3){
                 this.games[k] = data.data.games[i];
                 k++
@@ -66,18 +67,12 @@ export default {
                 } 
             } 
         } 
+        //l'array al momento è in ordine crescente, quindi lo inverto
         this.games.reverse();
         this.loading = false;
     });
   },
   methods: {
-    favorite: function() {
-      if (this.fav == true) {
-        this.fav = false;
-      } else {
-        this.fav = true;
-      }
-    },
   }
 }
 </script>

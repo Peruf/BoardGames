@@ -59,15 +59,11 @@ export default new VueRouter({
             name: 'About',
             component: About,
         },
+        // Tutti gli indirizzi sbagliati andranno verso la pagina di errore 404
         {
             path: '*',
             name: '404',
             component: Notfound,
         },
-        // {
-        //     path: '/5',
-        //     name: '5',
-        //     component: page5,
-        // },
     ]
 })
