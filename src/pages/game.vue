@@ -1,56 +1,108 @@
 <template>
-  <div class="md-layout md-alignment-top-center game">
-      <!-- voglio che i game siano una card 
+
+    <div class="md-layout md-alignment-top-center game">
+        <!-- voglio che i game siano una card 
         https://www.boardgameatlas.com/api/search?name=Azul&client_id=vuxWmH7cLW per guardare le caratterisctiche dei giochi
-      -->
-      <md-card class="md-layout-item" v-if="game"> <!-- la card si mostra solo se c'è un game -->
-          <md-card-header class="md-layout">
-            <div class="md-layout md-gutter">
-                <md-card-media md-medium class="md-layout-item md-size-10" >
-                    <img :src="game.images.medium" class="media"> <!-- url dinamico del game -->
+        -->
+        <md-card class="md-layout-item" v-if="game"> <!-- la card si mostra solo se c'è un game -->
+
+            <md-card-area md-inset>
+
+                <!-- IMMAGINE DEL GIOCO -->
+                <md-card-media md-ratio="16:9">
+                    <!-- <img src="https://vuematerial.io/assets/examples/card-example.jpg" alt="Coffee House"> -->
+                    <img :src="game.images.medium" alt="Game image"> <!-- url dinamico del game -->
                 </md-card-media>
-                <div class="md-layout-item">
-                    <md-card-header-text>
-                        <span class="md-title md-layout capitalize name"><b>{{game.name}}</b></span> <!-- prendo il nome del game -->
-                    </md-card-header-text> 
-                    <div class="md-subhead descrizione">{{game.description}}</div><!-- descrizione del game -->
-                </div>
-            </div>
-          </md-card-header>    
-          <md-card-content>
-              <!-- creo una tabella con tutte le caratteristiche del gioco che possano interessare -->
-              <md-table>
-                  <md-table-row>
-                    <md-table-cell class="upper"><b>Numero giocatori</b></md-table-cell>
-                    <md-table-cell>Da {{game.min_players}} a {{game.max_players}}</md-table-cell>
-                  </md-table-row>
-                  <md-table-row>
-                    <md-table-cell class="upper"><b>Età minima</b></md-table-cell>
-                    <md-table-cell>{{game.min_age}}</md-table-cell>
-                  </md-table-row>
-                  <md-table-row>
-                    <md-table-cell class="upper"><b>Prezzo</b></md-table-cell>
-                    <md-table-cell>{{game.price}} $</md-table-cell>
-                  </md-table-row>
-                  <md-table-row>
-                    <md-table-cell class="upper"><b>Tempo di gioco</b></md-table-cell>
-                    <md-table-cell>Da {{game.min_playtime}} a {{game.max_playtime}} minuti</md-table-cell>
-                  </md-table-row>
-              </md-table>
-              <h3 v-if="stats && stats.total > 0">
-                    <b>Voti totali:</b>
-                    {{stats.total}}
-                    <br />
-                    <b>Media voti:</b>
-                    {{stats.avg}}
-                </h3>
-                <h3 v-if="stats.total == 0 || !stats">Non ci sono ancora voti</h3>
-                <span>Mio voto:</span>
-                <span v-for="s in [1,2,3,4,5]" :key="s" @click="vote(s)">
-                    <md-icon>{{(stats.userVote >= s) ? 'star' : 'star_outline' }}</md-icon>
-                </span>
-				<md-card-content class="red md-subhead" v-if="voted">Hai già votato</md-card-content>
-          </md-card-content>
+
+                <!-- TITOLO GIOCO -->
+                <md-card-header>
+                    <h1 class="md-title">{{game.name}}</h1> <!-- prendo il nome del game -->
+
+                    <div class="md-subhead">
+                        
+                        <md-icon>attach_money</md-icon>
+                        <span>{{game.price}} $</span>
+
+                    </div>
+
+                </md-card-header>
+
+                <!-- DESCRIZIONE GIOCO -->
+                <md-card-content>
+                    <div>qui le stelline direi</div>
+                    <br>
+                    {{game.description}} <!-- descrizione del game -->
+                </md-card-content>
+
+            </md-card-area>
+
+            <!-- ALTRE INFORMAZIONI GIOCO -->
+            <md-card-content>
+
+                <h3 class="md-subheading">Altre informazioni</h3>
+
+
+
+                <md-icon>people_outline</md-icon>
+                <span>Da {{game.min_players}} a {{game.max_players}}</span>
+
+
+
+                <md-icon>face</md-icon>
+                <span>{{game.min_age}}</span>
+
+
+
+                <md-icon>access_time</md-icon>
+                <span>Da {{game.min_playtime}} a {{game.max_playtime}} minuti</span>
+
+            </md-card-content>
+
+            <!-- ZONA COMMENTI -->
+            <md-card-area>
+
+                <md-card-header>
+
+                    <h2 class="md-title">Commenti</h2>
+
+                </md-card-header>
+
+                <md-card-content>
+                    <md-table>
+                        <md-table-row v-for="n in [1, 2, 3, 4, 5]" :key="n">
+                            <md-table-cell>
+                                Commentino
+                            </md-table-cell>
+                        </md-table-row>
+                    </md-table>
+                </md-card-content>
+
+            </md-card-area>
+            <!-- ZONA COMMENTI -->
+
+            <!-- ZONA COMMENTO PERSONALE -->
+            <md-card-area>
+
+                <md-card-header>
+
+                    <h2 class="md-title">Scrivi il tuo commento</h2>
+
+                </md-card-header>
+
+                <md-card-content>
+                    
+                    <md-field>
+                        <label>Commento</label>
+                        <md-textarea></md-textarea>
+                    </md-field>
+
+                    <md-button class="md-primary" v-on:click="salva">Salva commento</md-button>
+
+                </md-card-content>
+
+            </md-card-area>
+            <!-- ZONA COMMENTO PERSONALE -->
+
       </md-card>
       
   </div>
@@ -105,25 +157,5 @@ export default {
 </script>
 
 <style scoped>
-.md-layout {
-    height: 100%;
-}
 
-.name{
-    padding-left: 1%;
-}
-.descrizione{
-    margin-top: 1em !important;
-    text-align: left;
-    padding-left: 1%;
-}
-.nobot{
-    border-bottom-width: 0ch;
-}
-.red{
-    color: red;
-}
-.game{
-    height: 1000px;
-}
 </style>
