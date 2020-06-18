@@ -70,61 +70,44 @@ export default{
         })
     },
     cercaCommenti(gioco, autore) {
-        console.log(" - Ora cercherò tutti i commenti per il gioco in questione nel database");
-        console.log(" - Ecco il gioco:" + gioco);
-
-        console.log(" - Noi siamo:" + autore);
+        
+        // FUNZIONE PER PRENDERE TUTTI I COMMENTI E CONTROLLARE SE L'UTENTE HA GIA' COMMENTATO E COSA
 
         return db
         .collection('commenti')
         .where('gioco', '==', gioco)
         .get().then((data) => {
             
-            console.log(" - Dovrei aver preso dei dati:");
-            
             let arrayCommenti = [];
             let autorePresente = false;
             let commentoAutore = null;
 
             data.forEach(doc => {
-                console.log("   -> " + doc.data().commento + " >>> " + doc.data().autore);
-                arrayCommenti.push(doc.data().commento);
+                
+                arrayCommenti.push(doc.data().commento);    // metto ogni commento nell'array
 
-                if (doc.data().autore === autore) {
+                if (doc.data().autore === autore) {         // controllo se c'è un commento dell'utente
                     autorePresente = true;
                     commentoAutore = doc.data().commento;
                 }
 
             });
 
-            console.log(" - Ecco l'array che si è creato con tutti i commenti:");
-            console.log(arrayCommenti);
-
-            if (autorePresente) {
-                console.log(" - Noi abbiamo già scritto un commento! >>> " + commentoAutore);
-            } else {
-                console.log(" - Noi NON abbiamo già scritto un commento!");
-            }
-
-            console.log("<<< FINE DELLA FUNZIONE CERCA COMMENTI >>>");
             return {
+                
                 arrayCommenti: arrayCommenti,
                 autorePresente: autorePresente,
                 commentoAutore: commentoAutore
+
             }
             
         });
     },
     saveCommento(testo, autore, gioco) {
-        console.log("<<< Sono all'interno di SAVE COMMENTO >>>");
+        
+        // FUNZIONE PER SALVARE IL COMMENTO NEL DB
 
-        console.log("- Ora andrò a salvare i seguenti dati nel database:");
-        console.log("  -> testo: " + testo);
-        console.log("  -> autore: " + autore);
-        console.log("  -> gioco: " + gioco);
-
-        let nomeDoc = autore+"-"+gioco;
-        console.log("Il nome del doc creato sarà: " + nomeDoc);
+        let nomeDoc = autore+"-"+gioco; // creo il nome per il documento in cui salvare il commento
 
         return db
         .collection('commenti')
@@ -137,7 +120,9 @@ export default{
         });
     },
     cancellaCommento(doc) {
-        console.log("<<< SIAMO DENTRO CANCELLA COMMENTO >>>");
+
+        // FUNZIONE PER ELIMINARE IL COMMENTO DAL DB
+        
         return db
         .collection('commenti')
         .doc(doc)
