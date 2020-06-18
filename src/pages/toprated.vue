@@ -17,11 +17,11 @@
         <div class="md-subhead abs">User rating: {{ Math.round(game.average_user_rating * 10) / 10 }}</div>
       </md-card-header>
       <!-- Aggiungi ai preferiti -->
-      <md-card-actions>
+      <!-- <md-card-actions>
         <md-button class="md-icon-button" >
           <md-icon >favorite_outline</md-icon>
         </md-button>
-      </md-card-actions>
+      </md-card-actions> -->
     </md-card>
     <!-- Spinner di caricamento -->
     <md-progress-spinner md-mode="indeterminate" :md-diameter="20" :md-stroke="2" v-if="loading" class="md-accent" ></md-progress-spinner>
@@ -38,7 +38,7 @@ export default {
       games: [],
       loading: false,
       limit: 20,
-      fav: false
+      //fav: false
     };
   },
   created: function() {
@@ -120,6 +120,11 @@ export default {
 }
 .titolo{
   margin-left: 1em;
+}
+.md-title{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 </style>
 
