@@ -97,12 +97,15 @@
 
                 <md-card-content>
                     
+                    <span v-if="autorePresente">Hai già commentato questo gioco!</span>
+                    
                     <md-field>
                         <label>Commento</label>
                         <md-textarea v-model="commento"></md-textarea>
                     </md-field>
 
-                    <md-button class="md-primary" v-on:click="salva">Salva commento</md-button>
+                    <md-button v-if="!autorePresente" class="md-primary" v-on:click="salva">Salva commento</md-button>
+                    <md-button v-if="autorePresente" class="md-primary" v-on:click="salva">Modifica commento</md-button>
                     <!-- <md-button class="md-primary">Salva commento</md-button> -->
 
                 </md-card-content>
@@ -127,7 +130,9 @@ export default {
             voted: false,
             commentiDB: [],
             esistenzaCommenti: false,
-            commento: null
+            autorePresente: false,
+            commento: null,
+            
         }
     },
     watch: {
@@ -152,8 +157,8 @@ export default {
                 //     this.stats = stats;
                 // });
 
-                // PARTE PER I COMMENTI
-                dataservice.cercaCommenti(this.game.name).then(data =>{
+                // PARTE PER I COMMENTI ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                dataservice.cercaCommenti(this.game.name, localStorage.getItem("username")).then(data =>{
                     console.log("<<< Siamo tornati in GAME! >>>");
                     
                     console.log("Questo è l'array che è tornato:");
@@ -174,6 +179,14 @@ export default {
 
                     } else {
                         this.esistenzaCommenti = false;
+                    }
+
+                    this.autorePresente = data.autorePresente;
+                    if (this.autorePresente) {
+                        console.log("Abbiamo già commentato!");
+                        this.commento = data.commentoAutore;
+                    } else {
+                        console.log("Possiamo commentare!");
                     }
 
                 });

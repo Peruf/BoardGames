@@ -69,9 +69,11 @@ export default{
             username: localStorage.getItem('username')
         })
     },
-    cercaCommenti(gioco) {
+    cercaCommenti(gioco, autore) {
         console.log(" - Ora cercherò tutti i commenti per il gioco in questione nel database");
         console.log(" - Ecco il gioco:" + gioco);
+
+        console.log(" - Noi siamo:" + autore);
 
         return db
         .collection('commenti')
@@ -81,19 +83,34 @@ export default{
             console.log(" - Dovrei aver preso dei dati:");
             
             let arrayCommenti = [];
+            let autorePresente = false;
+            let commentoAutore = null;
 
             data.forEach(doc => {
-                console.log("   -> " + doc.data().commento);
+                console.log("   -> " + doc.data().commento + " >>> " + doc.data().autore);
                 arrayCommenti.push(doc.data().commento);
+
+                if (doc.data().autore === autore) {
+                    autorePresente = true;
+                    commentoAutore = doc.data().commento;
+                }
 
             });
 
             console.log(" - Ecco l'array che si è creato con tutti i commenti:");
             console.log(arrayCommenti);
 
+            if (autorePresente) {
+                console.log(" - Noi abbiamo già scritto un commento! >>> " + commentoAutore);
+            } else {
+                console.log(" - Noi NON abbiamo già scritto un commento!");
+            }
+
             console.log("<<< FINE DELLA FUNZIONE CERCA COMMENTI >>>");
             return {
-                arrayCommenti: arrayCommenti
+                arrayCommenti: arrayCommenti,
+                autorePresente: autorePresente,
+                commentoAutore: commentoAutore
             }
             
         });
