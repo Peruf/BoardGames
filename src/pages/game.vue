@@ -6,11 +6,12 @@
         -->
         <md-card class="md-layout-item md-large-size-90 md-xsmall-size-95" v-if="game"> <!-- la card si mostra solo se c'è un game -->
 
-
-                
+                <!--  --------------------   IMMAGINE DEL GIOCO  --------------------- -->
                 <md-card-media class="cell" md-radio="1:1">
                         <img :src="game.images.large" alt="Game image"> <!-- url dinamico del game -->
                 </md-card-media>
+                <!--  ^^^^^^^^^^^^^^^^^^^^   IMMAGINE DEL GIOCO  ^^^^^^^^^^^^^^^^^^^^ -->
+                
                 <!--  --------------------   TITOLO DEL GIOCO  --------------------- -->
                 <md-card-header class="md-layout">
                     <!--  -------------------   IMMAGINE DEL GIOCO  -------------------- -->
