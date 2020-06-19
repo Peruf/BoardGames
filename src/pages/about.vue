@@ -68,13 +68,13 @@ export default {
   width: 100%;
   display: flex; /* or inline-flex */
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: top-left;
 }
 
-@media only screen and (max-width: 806px) {
+/* @media only screen and (max-width: 806px) {
   div {
     flex: left;
   }
   
-}
+} */
 </style>
