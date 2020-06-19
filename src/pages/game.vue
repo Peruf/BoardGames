@@ -4,79 +4,70 @@
         <!-- voglio che i game siano una card 
         https://www.boardgameatlas.com/api/search?name=Azul&client_id=vuxWmH7cLW per guardare le caratterisctiche dei giochi
         -->
-        <md-card class="md-layout-item" v-if="game"> <!-- la card si mostra solo se c'è un game -->
+        <md-card class="md-layout-item md-large-size-90 md-xsmall-size-95" v-if="game"> <!-- la card si mostra solo se c'è un game -->
 
-            <md-card-area md-inset>
-
-                <!--  -------------------   IMMAGINE DEL GIOCO  -------------------- -->
-                <md-card-media md-ratio="16:9">
-                    <img :src="game.images.large" alt="Game image"> <!-- url dinamico del game -->
-                </md-card-media>
-                <!--  ^^^^^^^^^^^^^^^^^^^   IMMAGINE DEL GIOCO  ^^^^^^^^^^^^^^^^^^^^ -->
-
-                <!--  --------------------   TITOLO DEL GIOCO  --------------------- -->
-                <md-card-header>
-                    <h1 class="md-title">{{game.name}}</h1> <!-- prendo il nome del game -->
-
-                    <div class="md-subhead">
-                        
-                        <md-icon>attach_money</md-icon>
-                        <span>{{game.price}} $</span>       <!-- prendo il prezzo del game -->
-
-                    </div>
-
-                </md-card-header>
-                <!--  ^^^^^^^^^^^^^^^^^^^^^^  TITOLO DEL GIOCO  ^^^^^^^^^^^^^^^^^^^^^ -->
 
                 
-                <md-card-content>
+                <md-card-media class="cell" md-radio="1:1">
+                        <img :src="game.images.large" alt="Game image"> <!-- url dinamico del game -->
+                </md-card-media>
+                <!--  --------------------   TITOLO DEL GIOCO  --------------------- -->
+                <md-card-header class="md-layout">
+                    <!--  -------------------   IMMAGINE DEL GIOCO  -------------------- -->
+                    
+                    <md-card-media md-big class="md-layout-item pc">
+                        <img :src="game.images.large" alt="Game image" > <!-- url dinamico del game -->
+                    </md-card-media>
+                    <!--  ^^^^^^^^^^^^^^^^^^^   IMMAGINE DEL GIOCO  ^^^^^^^^^^^^^^^^^^^^ -->
+                    <md-card-header-text class="md-layout-item md-xsmall-size-100">
+                        <div class="md-title">{{game.name}} <span class="md-subhead ml1" v-if="stats && stats.total > 0">{{stats.avg}}</span><md-icon class="mls">star</md-icon></div>
+                        <div class="md-subhead">
+                            <md-icon>attach_money</md-icon>
+                            <span>{{game.price}} $</span> 
+                        </div>
+                    
+                     <!--  ^^^^^^^^^^^^^^^^^^^^^^  TITOLO DEL GIOCO  ^^^^^^^^^^^^^^^^^^^^^ -->
+                
                     <!--  ------------------   STELLINE E VALUTAZIONE  ------------------- -->
                     <div>
-                        <h3 v-if="stats && stats.total > 0"> <!-- Mostra solo se ci sono voti -->
-                            <b>Voti totali:</b>
-                            {{stats.total}}
-                            <br />
-                            <b>Media voti:</b>
-                            {{stats.avg}}
-                        </h3>
-
-                        <h3 v-if="stats.total == 0 || !stats">Non ci sono ancora voti</h3> <!-- Nel caso non ci siano voti -->
-
-                        <span>Mio voto:</span>
-
                         <!-- --------------- ICONE DELLE STELLINE --------------- -->
-                        <span v-for="s in [1,2,3,4,5]" :key="s" @click="vote(s)">
-                            <md-icon>{{(stats.userVote >= s) ? 'star' : 'star_outline' }}</md-icon>
+                        <span v-for="s in [1,2,3,4,5]" :key="s" @click="vote(s)" v-on:mouseover="star_over(s)" v-on:mouseout="star_out()">
+                            <md-icon class="star" v-if="stats.userVote >= s && stats.userVote">star</md-icon>
+                            <md-icon class="starO" v-else-if="stats.userVote < s && stats.userVote">star_outline</md-icon>
+                            <md-icon v-if="stats.avg >= s && !stats.userVote">star</md-icon>
+                            <md-icon v-else-if="stats.avg < s && !stats.userVote">star_outline</md-icon>
                         </span>
                         <!-- ^^^^^^^^^^^^^^^ ICONE DELLE STELLINE ^^^^^^^^^^^^^^^ -->
 
-                        <span class="red md-subhead" v-if="voted">Hai già votato</span> <!-- Nel caso si provi a votare di nuovo -->
+                        
 
                     </div>
+                    </md-card-header-text>
                     <!--  ^^^^^^^^^^^^^^^^^^^   STELLINE E VALUTAZIONE  ^^^^^^^^^^^^^^^^^^^ -->
                     
-                    <br>
-                    
-                    <!-- ---------- DESCRIZIONE GIOCO ---------- -->
-                    {{game.description}} <!-- descrizione del game -->
-                </md-card-content>
+                </md-card-header>     
 
-            </md-card-area>
+
 
             <!-- -------------------------- ALTRE INFORMAZIONI SUL GIOCO -------------------------- -->
             <md-card-content>
-
-                <h3 class="md-subheading">Altre informazioni</h3>
-
-                <md-icon>people_outline</md-icon>
-                <span>Da {{game.min_players}} a {{game.max_players}}</span> <!-- Numero giocatori minimo e massimo per giocare -->
-
-                <md-icon>face</md-icon>
-                <span>{{game.min_age}}</span>                               <!-- Età minima per giocare -->
-
-                <md-icon>access_time</md-icon>
-                <span>Da {{game.min_playtime}} a {{game.max_playtime}} minuti</span> <!-- Tempo minimo e massimo per giocare -->
-
+                <h1 class="md-title mt2">Descrizione</h1>
+                <div class="ml1 mt2 mr1 descrizione">{{game.description}}</div> <!-- descrizione del game -->
+                <h3 class="md-title mt2">Altre informazioni</h3>
+                <div class="mt2">
+                    <div class="ml1">
+                        <md-icon>people_outline</md-icon>
+                        <span class="ml1">Da {{game.min_players}} a {{game.max_players}} giocatori<br /></span> <!-- Numero giocatori minimo e massimo per giocare -->
+                    </div>
+                    <div class="ml1">
+                        <md-icon>face</md-icon>
+                        <span class="ml1">Età minima {{game.min_age}} anni <br /></span>                               <!-- Età minima per giocare -->
+                    </div>
+                    <div class="ml1">
+                        <md-icon>access_time</md-icon>
+                        <span class="ml1">Da {{game.min_playtime}} a {{game.max_playtime}} minuti</span> <!-- Tempo minimo e massimo per giocare -->
+                    </div>
+                </div>
             </md-card-content>
             <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ ALTRE INFORMAZIONI SUL GIOCO ^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
 
@@ -120,11 +111,7 @@
 
                 <md-card-content>
                     
-                    <!-- ---------- ZONA EVENTUALITA' CHE HA GIA' VOTATO ---------- -->
-
-                    <span v-if="autorePresente">Hai già commentato questo gioco!</span>
-
-                    <!-- ^^^^^^^^^^ ZONA EVENTUALITA' CHE HA GIA' VOTATO ^^^^^^^^^^ -->
+                    
                     
                     
                     <!-- ------------- CAMPO PER SCRIVERE IL COMMENTO -------------  -->
@@ -141,11 +128,16 @@
                         <span class="md-error">Non hai scritto niente!</span> <!-- messaggio di errore -->
                     </md-field>
                     <!-- ^^^^^^^^ CAMPO PER SCRIVERE IL COMMENTO CON ERRORI CAMPO INVALIDO ^^^^^^^^  -->
+                    <!-- ---------- ZONA EVENTUALITA' CHE HA GIA' VOTATO ---------- -->
 
-                    <md-button v-if="!autorePresente" class="md-primary" v-on:click="salva">Salva commento</md-button> <!-- visibile solo quando non si ha ancora creato un commento -->
-                    <md-button v-if="autorePresente" class="md-primary" v-on:click="salva">Modifica commento</md-button> <!-- visibile solo quando si ha già creato un commento -->
-                    <md-button v-if="autorePresente" class="md-primary" @click="active = true">Elimina commento</md-button> <!-- visibile solo quando si ha già creato un commento -->
+                    <span v-if="autorePresente" class="red ml1">Hai già commentato questo gioco!</span>
 
+                    <!-- ^^^^^^^^^^ ZONA EVENTUALITA' CHE HA GIA' VOTATO ^^^^^^^^^^ -->
+                    <div class="mt2">
+                        <md-button v-if="!autorePresente" class="md-primary" v-on:click="salva">Salva commento</md-button> <!-- visibile solo quando non si ha ancora creato un commento -->
+                        <md-button v-if="autorePresente" class="md-primary" v-on:click="salva">Modifica commento</md-button> <!-- visibile solo quando si ha già creato un commento -->
+                        <md-button v-if="autorePresente" class="md-primary" @click="active = true">Elimina commento</md-button> <!-- visibile solo quando si ha già creato un commento -->
+                    </div>
                     <!-- ------------- FINESTRA DI DIALOGO PER CANCELLARE IL COMMENTO -------------  -->
                     <md-dialog-confirm
                         :md-active.sync="active"
@@ -183,7 +175,6 @@ export default {
         return{
             game: null, //contiene le informazioni riguardo al gioco
             stats: {},  //contiene le statistiche riguardo ai voti del gioco
-            voted: false, //per controllare se il gioco è stato votato dall'utente
             commentiDB: [], //per contenere i commenti provenienti dal DB
             esistenzaCommenti: false, //per controllare se esistono commenti
             autorePresente: false, //per controllare se l'autore ha già scritto o no un commento
@@ -192,13 +183,13 @@ export default {
             active: false, //per il messaggio "sei sicuro di voler cancellare?"
             mostraSnackbar: false, //per lo snackbar... in caso si abbia fame
             msgSnackbar: "", // messaggio per lo snackbar
+            realVote: null
             
         }
     },
     watch: {
         $route: function(){
             this.load();
-            this.voted = false;
         }
     },
     created: function(){
@@ -252,15 +243,11 @@ export default {
             
         },
         vote: function(s) {     // FUNZIONE PER GESTIRE I VOTI
-            if (this.stats.userVote > 0) {
-                    this.voted = true;          // CONTROLLO SE HA GIA' VOTATO
-            } 
-            else {
+            
                 dataservice.setVote(this.game.name, s).then(() => {
                     this.load();                
                 });                             // SALVO IL VOTO SUL DB
-                this.voted = false;
-            }
+            
         },
         salva: function() {     // FUNZIONE PER SALVARE IL COMMENTO SU DB
             
@@ -297,10 +284,75 @@ export default {
             this.mostraSnackbar = true;
 
         },
+        star_over: function(index) {
+            this.realVote = this.stats.userVote;
+            this.stats.userVote = index; 
+        },
+        star_out: function() {
+            this.stats.userVote = this.realVote;
+        },
     }
 }
 </script>
 
-<style scoped>
+<style scoped> 
+.md-card {
+    margin: 4px;
+    display: inline-block;
+    vertical-align: top;
+}
 
+.md-card-header-text{
+    vertical-align: middle;
+    padding: 5vh;
+}
+.star{
+    color: rgb(134,217,71)!important;
+}
+/* .starO{
+    color: black!important;
+} */
+.black{
+    color: black!important;
+}
+.red{
+    color: red !important;
+    opacity: 64%;
+}
+.mls{
+    margin-left: 0.2vw !important;
+}
+.ml1{
+    margin-left: 1vw !important;
+}
+.mt1{
+    margin-top: 1vh !important;
+}
+.mt2{
+    margin-top: 2vh !important;
+}
+.mr1{
+    margin-right: 1vw !important;
+}
+.descrizione{
+    text-align: justify;
+}
+.cell{
+    display: none;
+}
+@media only screen and (max-width: 600px) {
+  img{
+    object-fit: scale-down;
+  }
+  .cell{
+    display: inline-block;
+  }
+  .pc{
+      display: none;
+  }
+
+  .md-card-header-text{
+      padding: 0;
+  }
+}
 </style>

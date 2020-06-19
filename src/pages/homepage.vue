@@ -82,17 +82,6 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-@media only screen and (max-width: 600px) {
-  .md-card {
-    width: 95%;
-    margin: 10px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  .titolo{
-    padding-bottom: 1em;
-  }
-}
 .black {
   color: black;
   text-decoration: none;
@@ -116,6 +105,17 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; 
+}
+@media only screen and (max-width: 600px) {
+  .md-card {
+    width: 95%;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .titolo{
+    padding-bottom: 1em;
+  }
 }
 </style>
 

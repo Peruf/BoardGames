@@ -48,7 +48,7 @@ export default new VueRouter({
         },
         {
             path: '/order_by=person',
-            name: 'OrderByYear',
+            name: 'OrderByPerson',
             component: Person,
         },
         {
