@@ -12,7 +12,7 @@
                 </md-button>
 
                 <!-- TITOLO -->
-                <span class="md-title">Giochi</span>
+                <span class="md-title" id="giochi">Giochi</span>
 
             </div>
 
@@ -166,11 +166,13 @@
             },
             mostra: function(){
                 document.getElementById("search").style.display = "none";
+                document.getElementById("giochi").style.display = "none";
                 document.getElementById("close").style.display = "block";
                 document.getElementById("autocomplete").style.display = "block";
             },
             chiudi: function(){
                 document.getElementById("search").style.display = "block";
+                document.getElementById("giochi").style.display = "block";
                 document.getElementById("close").style.display = "none";
                 document.getElementById("autocomplete").style.display = "none";
             }
@@ -186,7 +188,7 @@
       display:none;
   }
 @media only screen and (max-width: 600px) {
-  .md-title, .md-autocomplete, .close{
+  .md-autocomplete, .close{
       display:none;
   }
   .search{

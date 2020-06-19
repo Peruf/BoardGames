@@ -43,6 +43,9 @@
                         
 
                     </div>
+                    <md-button class="md-icon-button" @click="checkFavorite(game.id)"> 
+                        <md-icon>{{ (fav[game.id]==true)? 'favorite':'favorite_outline' }}</md-icon> <!-- se è true mi mette l'icona piena, se è false me la mette vuota-->
+                    </md-button>
                     </md-card-header-text>
                     <!--  ^^^^^^^^^^^^^^^^^^^   STELLINE E VALUTAZIONE  ^^^^^^^^^^^^^^^^^^^ -->
                     
@@ -184,13 +187,17 @@ export default {
             active: false, //per il messaggio "sei sicuro di voler cancellare?"
             mostraSnackbar: false, //per lo snackbar... in caso si abbia fame
             msgSnackbar: "", // messaggio per lo snackbar
-            realVote: null
+            realVote: null,
+            fav: [],
             
         }
     },
     watch: {
         $route: function(){
             this.load();
+        },
+        fav: function(){
+        console.log("e cambiato");
         }
     },
     created: function(){
@@ -241,6 +248,7 @@ export default {
                 });
                 
             });
+            this.fav=dataservice.getFavorite();
             
         },
         vote: function(s) {     // FUNZIONE PER GESTIRE I VOTI
@@ -291,6 +299,12 @@ export default {
         },
         star_out: function() {
             this.stats.userVote = this.realVote;
+        },
+        checkFavorite: function(id){ // metodo che viene attivato quando si clicca sul cuore 
+            console.log("dentro a check "+ id + " - " +!(this.fav[id]) );
+            dataservice.setFavorite(id,!(this.fav[id]));
+            this.fav[id]=!(this.fav[id]); // aggiorno il valore 
+            this.fav=dataservice.getFavorite(); // risetto fav con i cambiamenti --> parte il watcher
         },
     }
 }
