@@ -21,7 +21,15 @@
                     </md-card-media>
                     <!--  ^^^^^^^^^^^^^^^^^^^   IMMAGINE DEL GIOCO  ^^^^^^^^^^^^^^^^^^^^ -->
                     <md-card-header-text class="md-layout-item md-xsmall-size-100">
-                        <div class="md-title">{{game.name}} <span class="md-subhead ml1" v-if="stats && stats.total > 0">{{stats.avg}}</span><md-icon class="mls">star</md-icon></div>
+                        <div class="md-caption">{{game.year_published}}</div>
+                        <div>
+                            <span class="md-title">{{game.name}}</span>
+                            <md-button class="md-icon-button fav mls" @click="checkFavorite(game.id)">
+                                <md-icon v-if="fav[game.id]==true" class="favorite">favorite</md-icon>
+                                <md-icon v-else >favorite_outline</md-icon>
+                            </md-button>   
+                        </div>
+                        
                         <div class="md-subhead">
                             <md-icon>attach_money</md-icon>
                             <span>{{game.price}} $</span> 
@@ -39,13 +47,12 @@
                             <md-icon v-else-if="stats.avg < s && !stats.userVote">star_outline</md-icon>
                         </span>
                         <!-- ^^^^^^^^^^^^^^^ ICONE DELLE STELLINE ^^^^^^^^^^^^^^^ -->
-
-                        
-
+                    
+                        <span class="md-caption ml1" v-if="stats && stats.total > 0">Voto medio: {{stats.avg}}</span>
+                        <md-icon class="mls" v-if="stats && stats.total > 0">star</md-icon>
+                        <span class="md-caption mls" v-if="stats && stats.total > 0">{{stats.total}} voti</span>
                     </div>
-                    <md-button class="md-icon-button" @click="checkFavorite(game.id)"> 
-                        <md-icon>{{ (fav[game.id]==true)? 'favorite':'favorite_outline' }}</md-icon> <!-- se è true mi mette l'icona piena, se è false me la mette vuota-->
-                    </md-button>
+                    
                     </md-card-header-text>
                     <!--  ^^^^^^^^^^^^^^^^^^^   STELLINE E VALUTAZIONE  ^^^^^^^^^^^^^^^^^^^ -->
                     
@@ -313,6 +320,10 @@ export default {
 </script>
 
 <style scoped> 
+.fav{
+    height: 24px;
+    vertical-align: text-bottom;
+}
 .md-card {
     margin: 4px;
     display: inline-block;
@@ -320,10 +331,10 @@ export default {
 }
 
 .md-card-header-text{
-    vertical-align: middle;
-    padding: 5vh;
+    padding-left: 5vh;
 }
-.star{
+
+.star, .favorite{
     color: rgb(134,217,71)!important;
 }
 .black{
