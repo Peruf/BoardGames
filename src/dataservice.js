@@ -149,16 +149,40 @@ export default{
     },
 
     getFavorite(){ // Salvo in array tutti i giochi preferiti che sono presenti sul database
-        let fav=[];
-        let idT=null;
-        let f=null;
-                db.collection('preferiti').where('username', '==', localStorage.getItem('username')).get().then((data) => {
-                    data.forEach(doc => {
-                        idT=doc.data().id;
-                        f=doc.data().favorite;
-                        fav[idT]=f; // array è costruito: array[ id del gioco ]= è favorito? (booleano)
-                    });
-                });
-        return fav; //ritorno l'array alla pagina home che lo salverà nel suo array
+        
+        return db
+        .collection('preferiti')
+        .where('username', '==', localStorage.getItem('username'))
+        .get().then((data) => {
+            
+            let arrayPreferiti = [];
+
+            data.forEach(doc => {
+                
+                arrayPreferiti.push(doc.data().nome);    // metto ogni gioco preferito trovato nel array
+
+            });
+
+            return {
+                
+                arrayPreferiti: arrayPreferiti
+
+            }
+            
+        });
+        
+        
+        
+        // let fav=[];
+        // let idT=null;
+        // let f=null;
+        //         db.collection('preferiti').where('username', '==', localStorage.getItem('username')).get().then((data) => {
+        //             data.forEach(doc => {
+        //                 idT=doc.data().id;
+        //                 f=doc.data().favorite;
+        //                 fav[idT]=f;
+        //             });
+        //         });
+        // return fav;
     },
 }

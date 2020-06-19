@@ -51,6 +51,7 @@ export default {
       loading: false,
       limit: 20,
       fav: [],
+      esistenzaPreferiti: false
     };
   },
   watch:{ // dovrebbe aggiornarmi i cuori
@@ -59,14 +60,46 @@ export default {
     }
   },
   created: function() {
-    this.loading = true;
-    DataService.getGames().then(data => {
-      this.games = data.data.games;
-      console.log(this.games);
-      this.fav=DataService.getFavorite();
-      this.selectFav=this.getSelectGame();
-      this.loading = false;
+    
+    DataService.getFavorite().then(data =>{
+      this.fav = [];
+
+      // +++++ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB +++++
+      if (data.arrayPreferiti.length > 0) {
+
+          for (let i=0; i<data.arrayPreferiti.length; i++) {
+          
+              this.fav.push(data.arrayPreferiti[i]); //infilo i preferiti trovati all'interno dell'array
+              
+          }
+
+          this.esistenzaPreferiti = true;
+
+      } else {
+          this.esistenzaPreferiti = false;  // nel caso che non siano stati trovati commenti
+      }
+      // ^^^^^ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB ^^^^^
+
+      console.log(this.fav);
+      console.log(this.fav[0]);
     });
+
+    DataService.getGames().then(data => {
+      
+      this.games = data.data.games;
+
+      
+      for (let i = 0; i <this.games.length; i++) {
+        
+      }
+
+      // console.log(this.games);
+      console.log(this.games.length);
+      
+      // console.log(this.games[0].name);
+      
+    });
+
   },
   methods: {
     checkFavorite: function(id){ // metodo che viene attivato quando si clicca sul cuore 
