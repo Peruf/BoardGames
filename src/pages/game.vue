@@ -206,6 +206,8 @@ export default {
     methods: {
         load: function(){       // funzione che si attiva all'avvio
             
+            this.commento = null;
+
             dataservice.getGame(this.$route.params.name).then((data) => {       // vado a prendermi i giochi nelle API
                 this.game = data.data.games[0];
                 
