@@ -33,11 +33,11 @@
     <!-- Spinner di caricamento -->
     <md-progress-spinner md-mode="indeterminate" :md-diameter="20" :md-stroke="2" v-if="loading" class="md-accent" ></md-progress-spinner>
     <md-empty-state
-                v-if="isVoid"
-                md-icon="favorite_border"
-                md-label="Preferiti mancanti"
-                md-description="Non hai ancora aggiunto nessun gioco ai tuoi preferiti">
-        </md-empty-state>
+      v-if="!esistenzaPreferiti"
+      md-icon="favorite_border"
+      md-label="Preferiti mancanti"
+      md-description="Non hai ancora aggiunto nessun gioco ai tuoi preferiti">
+    </md-empty-state>
   </div>
 </template>
       
@@ -51,17 +51,11 @@ export default {
       games: [],
       gamePreferiti: [],
       selectFav: [],
-      isVoid: false,
       loading: false,
       limit: 20,
       fav: [],
       esistenzaPreferiti: false
     };
-  },
-  watch:{ // dovrebbe aggiornarmi i cuori
-    fav: function(){
-      console.log("e cambiato");
-    }
   },
   created: function() {
     
@@ -108,16 +102,6 @@ export default {
         }
 
       }
-
-      console.log(this.gamePreferiti);
-      console.log(this.gamePreferiti[0]);
-      console.log(this.gamePreferiti[0].name);
-      console.log(this.gamePreferiti[1]);
-      console.log(this.gamePreferiti[1].name);
-
-      // console.log(this.games.length);
-      
-      // console.log(this.games[0].name);
       
     });
 
@@ -144,31 +128,6 @@ export default {
         }
         console.log(arr);
         return arr
-//         let trovato;
-//         let c;
-//         if(this.fav.length!=0)
-//         {
-//             //this.isVoid=false;
-//             console.log("0000");
-//             console.log(this.fav.__ob);
-//             console.log(this.fav);
-//             for (let i in this.fav) {
-//                 c=0;
-//                 trovato=false;
-//                 while (!trovato) {
-//                     if (this.games[c].id==i) {
-//                         console.log(this.games[c]);
-//                         this.selectFav[c].push(this.games[c]);
-//                         trovato=true;
-//                     }
-//                     c++;
-//                 }
-//             }
-//         }
-//         else
-//         {
-//             this.isVoid=true;
-//         }
      }
    }
   

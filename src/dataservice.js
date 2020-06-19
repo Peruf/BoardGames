@@ -135,54 +135,52 @@ export default{
     },
     // metodi per gestire l'array dei preferiti 
 
-    setFavorite(id, valore){ // id =id del gioco, valore= è preferito? (booleano)  Metodo che serve per caricare/eliminare su database un gioco preferito
-        let key=id+localStorage.getItem('username'); // creo una chiave per chiamare il documento del database come voglio io in modo tale che non sia lui a decidere (id gioco piu nome del utente)
-        if (valore) {
-            /* return */ db.collection('preferiti').doc(key).set({ //query per inserire
-                username: localStorage.getItem('username'),
-                id: id,
-                favorite: true,
-            })
-        } else {
-            db.collection("preferiti").doc(key).delete(); // query per eliminarlo 
-        }
-    },
+    savePreferito(gioco) {
+        // FUNZIONE PER SALVARE IL PREFERITO NEL DB
 
+        let autore = localStorage.getItem('username');
+        let nomeDoc = autore+"-"+gioco; // creo il nome per il documento in cui salvare il commento
+
+        console.log("Ora vado a salvare " + gioco + " nei preferiti per conto di " + autore);
+
+        return db
+        .collection('preferiti')
+        .doc(nomeDoc)
+        .set({
+
+            nome: gioco,
+            username: autore
+        });
+    },
     getFavorite(){ // Salvo in array tutti i giochi preferiti che sono presenti sul database
-        
+
         return db
         .collection('preferiti')
         .where('username', '==', localStorage.getItem('username'))
         .get().then((data) => {
-            
+
             let arrayPreferiti = [];
 
             data.forEach(doc => {
-                
+
                 arrayPreferiti.push(doc.data().nome);    // metto ogni gioco preferito trovato nel array
 
             });
 
             return {
-                
+
                 arrayPreferiti: arrayPreferiti
 
             }
-            
+
         });
-        
-        
-        
-        // let fav=[];
-        // let idT=null;
-        // let f=null;
-        //         db.collection('preferiti').where('username', '==', localStorage.getItem('username')).get().then((data) => {
-        //             data.forEach(doc => {
-        //                 idT=doc.data().id;
-        //                 f=doc.data().favorite;
-        //                 fav[idT]=f;
-        //             });
-        //         });
-        // return fav;
     },
+    cancellaPreferito(doc) { // FUNZIONE PER ELIMINARE IL PREFERITO DAL DB
+
+        return db
+        .collection('preferiti')
+        .doc(doc)
+        .delete();
+
+    }
 }

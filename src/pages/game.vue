@@ -24,8 +24,8 @@
                         <div class="md-caption">{{game.year_published}}</div>
                         <div>
                             <span class="md-title">{{game.name}}</span>
-                            <md-button class="md-icon-button fav mls" @click="checkFavorite(game.id)">
-                                <md-icon v-if="fav[game.id]==true" class="favorite">favorite</md-icon>
+                            <md-button class="md-icon-button fav mls" @click="mettiPreferito()">
+                                <md-icon v-if="preferitoSaved==true" class="favorite">favorite</md-icon>
                                 <md-icon v-else >favorite_outline</md-icon>
                             </md-button>   
                         </div>
@@ -194,7 +194,8 @@ export default {
             active: false, //per il messaggio "sei sicuro di voler cancellare?"
             mostraSnackbar: false, //per lo snackbar... in caso si abbia fame
             msgSnackbar: "", // messaggio per lo snackbar
-            realVote: null,
+            realVote: null, //per le stelline
+            preferitoSaved: false, //per il cuoricino
             fav: [],
             
         }
@@ -203,9 +204,6 @@ export default {
         $route: function(){
             this.load();
         },
-        fav: function(){
-        console.log("e cambiato");
-        }
     },
     created: function(){
         this.load();
@@ -223,6 +221,41 @@ export default {
                     this.stats = stats;
                 });
                 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+                // PARTE PER Il CUORICINO ++++++++++++++++++++++++++++++++
+                dataservice.getFavorite().then(data =>{
+                    this.fav = [];
+
+                    // +++++ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB +++++
+                    if (data.arrayPreferiti.length > 0) {
+
+                        for (let i=0; i<data.arrayPreferiti.length; i++) {
+
+                            this.fav.push(data.arrayPreferiti[i]); //infilo i preferiti trovati all'interno dell'array
+
+                        }
+
+                        for (let j = 0; j < this.fav.length; j++) {
+
+                            if (this.fav[j] === this.game.name) {
+                                console.log("Varda che sto gioco è nei preferiti!");
+                                this.preferitoSaved = true;
+                            }
+
+                        }
+
+                    } else {
+                        console.log("Questo giono non è nei preferiti!");
+                        this.preferitoSaved = false;  // nel caso che non siano stati trovati dei preferiti
+                    }
+                    // ^^^^^ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB ^^^^^
+
+                    console.log(this.fav);
+                    console.log(this.fav[0]);
+                });
+                // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
 
                 // PARTE PER I COMMENTI +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
                 dataservice.cercaCommenti(this.game.name, localStorage.getItem("username")).then(data =>{
@@ -309,20 +342,32 @@ export default {
         star_out: function() {
             this.stats.userVote = this.realVote;
         },
-        checkFavorite: function(id){ // metodo che viene attivato quando si clicca sul cuore 
-            console.log("dentro a check "+ id + " - " +!(this.fav[id]) );
-            dataservice.setFavorite(id,!(this.fav[id]));
-            this.fav[id]=!(this.fav[id]); // aggiorno il valore 
-            this.fav=dataservice.getFavorite(); // risetto fav con i cambiamenti --> parte il watcher
-        },
+        mettiPreferito: function() {
+
+            if (this.preferitoSaved) {
+                let doc = localStorage.getItem("username") + "-" + this.game.name;
+                dataservice.cancellaPreferito(doc);
+
+                console.log("LA FUNZIONE HA TERMINATO.");
+
+                this.preferitoSaved = false;
+
+            } else {
+                dataservice.savePreferito(this.game.name);
+
+                console.log("LA FUNZIONE HA TERMINATO.");
+                this.preferitoSaved = true;
+            }
+
+            this.load();
+        }
     }
 }
 </script>
 
 <style scoped> 
 .fav{
-    height: 24px;
-    vertical-align: text-bottom;
+    vertical-align: super;
 }
 .md-card {
     margin: 4px;
