@@ -63,8 +63,11 @@
             <!-- -------------------------- ALTRE INFORMAZIONI SUL GIOCO -------------------------- -->
             <md-card-content>
                 <!-- DESCRIZIONE -->
-                <h1 class="md-title mt2">Descrizione</h1>
-                <div class="ml1 mt2 mr1 descrizione">{{game.description}}</div> <!-- descrizione del game -->
+                <div class="titoloSpazio">
+                    <h1 class="md-title mt2">Descrizione</h1>
+                    <div class="ml1 mt2 mr1 descrizione">{{game.description}}</div> <!-- descrizione del game -->
+                </div>
+
                 <h3 class="md-title mt2">Altre informazioni</h3>
                 <div class="mt2">
                     <div class="ml1">
@@ -203,6 +206,8 @@ export default {
     },
     watch: {
         $route: function(){
+            console.log("Hai cambiato pagina!");
+            this.preferitoSaved = false;
             this.load();
         },
     },
@@ -412,8 +417,8 @@ export default {
     display: none;
 }
 
-.md-card-content {
-    margin-top: 7vh; /* Il 5% dell'altezza della pagina */
+.titoloSpazio { /* Il 5% dell'altezza della pagina */
+    margin-top: 7vh; 
 }
 
 
