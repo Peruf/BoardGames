@@ -24,12 +24,6 @@
                         </router-link>
                         <div class="md-subhead abs">{{game.year_published}}</div>
                     </md-card-header>
-                    <!-- Aggiungi ai preferiti -->
-                    <!-- <md-card-actions>
-                        <md-button class="md-icon-button" >
-                        <md-icon >favorite_outline</md-icon>
-                        </md-button>
-                    </md-card-actions> -->
             </md-card>
         
         <!-- Spinner di caricamento -->
@@ -47,12 +41,17 @@ export default {
       games: [],
       loading: false,
       limit: 20,
-      //fav: false,
       years: [],
-      anno: 2020, //di default l'anno è 2020
+      anno: null, //di default l'anno è 2020
+      annoAttuale: null
     };
   },
   created: function() {
+    let x = new Date();
+    /* anno e annoAttuale hanno l'anno attuale, sono due perchè anno cambierà con il tempo e annoAttuale 
+    deve rimanere sempre l'anno in corso */
+    this.anno = x.getFullYear();
+    this.annoAttuale = x.getFullYear();
     this.loading = true;
     this.getYear(this.anno);
   },
@@ -67,11 +66,11 @@ export default {
       this.loading = false;
     });
     },
-    // creo un array con tutti gli anni dal 2020 al 1900
+    // creo un array con tutti gli anni dall'anno attuale al 1900
     yearsPop: function(){
         let year = [];
         let k = 0;
-        for(let i = 2020; i >= 1900; i--){
+        for(let i = this.annoAttuale; i >= 1900; i--){
             year[k] = i;
             k++;
         }
@@ -99,9 +98,6 @@ export default {
 .black {
   color: black;
   text-decoration: none;
-}
-.abs{
-    position:relative;
 }
 .router:hover{
     text-decoration: none;
