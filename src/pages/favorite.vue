@@ -1,8 +1,5 @@
 <template>
 
-        <!---- pagina sbagliata -->
-
-
   <div class="home">
 
     <div class="inTitolo"><span class="md-title black titolo md-align-top-left">Giochi preferiti</span></div>
@@ -24,8 +21,6 @@
         </router-link>
         <div class="md-subhead abs">{{game.year_published}}</div>
       </md-card-header>
-
-      
 
 
     </md-card>
@@ -50,87 +45,70 @@ export default {
     return {
       games: [],
       gamePreferiti: [],
-      selectFav: [],
       loading: false,
       limit: 20,
       fav: [],
-      esistenzaPreferiti: false
+      esistenzaPreferiti: false,
     };
   },
   created: function() {
     
-    DataService.getFavorite().then(data =>{
-      this.fav = [];
-
-      // +++++ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB +++++
-      if (data.arrayPreferiti.length > 0) {
-
-          for (let i=0; i<data.arrayPreferiti.length; i++) {
-          
-              this.fav.push(data.arrayPreferiti[i]); //infilo i preferiti trovati all'interno dell'array
-              
-          }
-
-          this.esistenzaPreferiti = true;
-
-      } else {
-          this.esistenzaPreferiti = false;  // nel caso che non siano stati trovati commenti
-      }
-      // ^^^^^ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB ^^^^^
-
-      console.log(this.fav);
-      console.log(this.fav[0]);
-    });
-
-    DataService.getGames().then(data => {
-      
-      this.games = data.data.games;
-
-      
-      for (let i = 0; i <this.games.length; i++) {
-        
-        // console.log(this.games[i].name);
-        
-        for (let j = 0; j < this.fav.length; j++) {
-          // console.log(this.fav[j]);
-
-          if (this.games[i].name === this.fav[j]) {
-            
-            this.gamePreferiti.push(this.games[i]);
-
-          }
-        }
-
-      }
-      
-    });
+    this.load();
 
   },
   methods: {
-    checkFavorite: function(id){ // metodo che viene attivato quando si clicca sul cuore 
-      console.log("dentro a check "+ id + " - " +!(this.fav[id]) );
-      DataService.setFavorite(id,!(this.fav[id]));
-      this.fav[id]=!(this.fav[id]); // aggiorno il valore 
-      this.fav=DataService.getFavorite(); // risetto fav con i cambiamenti --> parte il watcher
-    },
-    getSelectGame: function(){
-        console.log("ueue");
-        let k = 0;
-        let arr= [];
-        for(let i = 0; i < this.games.length; i++){
-          //se il gioco ha una durata minima di massimo 30 min e una massima di massimo 60 min, 
-          //viene reputato come gioco veloce e lo si aggiunge all'array con tutti i giochi
-          //se dura di più non viene aggiunto 
-            if(this.fav[this.games[i].id]!=undefined&&this.fav[this.games[i].id]==true){
-                arr[k]=this.games[i];
-                k++
+    load: function() {
+      
+      this.loading=true;
+      
+      DataService.getFavorite().then(data =>{
+        this.fav = [];
+        this.gamePreferiti = [];
+
+        // +++++ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB +++++
+        if (data.arrayPreferiti.length > 0) {
+
+            for (let i=0; i<data.arrayPreferiti.length; i++) {
+            
+                this.fav.push(data.arrayPreferiti[i]); //infilo i preferiti trovati all'interno dell'array
+                
             }
+
+            this.esistenzaPreferiti = true;
+
+        } else {
+            this.esistenzaPreferiti = false;  // nel caso che non siano stati trovati commenti
         }
-        console.log(arr);
-        return arr
-     }
-   }
-  
+        // ^^^^^ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB ^^^^^
+      });
+
+      DataService.getGames().then(data => {
+        
+        this.games = data.data.games;
+
+        
+        for (let i = 0; i <this.games.length; i++) {
+          
+          for (let j = 0; j < this.fav.length; j++) {
+
+            if (this.games[i].name === this.fav[j]) {
+              
+              this.gamePreferiti.push(this.games[i]);
+
+            }
+          }
+
+        }
+
+       
+
+        this.loading=false;
+        
+      });
+
+    },
+    
+  }
 };
 
 </script>
@@ -178,6 +156,12 @@ export default {
 }
 .titolo{
   margin-left: 1em;
+}
+.md-title{
+  /* Se il titolo è troppo lungo non va a capo e mette ... al posto del testo in più */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 </style>
 

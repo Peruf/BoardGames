@@ -16,11 +16,6 @@
 
             </div>
 
-            <!-- MIDDLE SECTION -->
-            
-            <!-- -------------- -->
-
-
             <!-- SECTION END -->
             <div class="md-toolbar-section-end" v-if="authenticated">
 

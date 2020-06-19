@@ -38,7 +38,7 @@ export default {
     this.loading = true;
     DataService.getGames().then(data => {
       this.games = data.data.games;
-      console.log(this.games);
+      
       this.loading = false;
     });
   },

@@ -5,6 +5,7 @@
       <navbar slot="md-app-toolbar"></navbar>
       <!-- chiamata alla home -->
       <home></home>
+      <!-- router -->
       <md-app-content>
         <router-view></router-view>
       </md-app-content>

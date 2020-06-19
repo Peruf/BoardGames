@@ -150,8 +150,8 @@
                     <!-- ^^^^^^^^^^ ZONA EVENTUALITA' CHE HA GIA' VOTATO ^^^^^^^^^^ -->
                     <div class="mt2">
                         <md-button v-if="!autorePresente" class="md-primary" v-on:click="salva">Salva commento</md-button> <!-- visibile solo quando non si ha ancora creato un commento -->
-                        <md-button v-if="autorePresente" class="md-primary" v-on:click="salva">Modifica commento</md-button> <!-- visibile solo quando si ha già creato un commento -->
-                        <md-button v-if="autorePresente" class="md-primary" @click="active = true">Elimina commento</md-button> <!-- visibile solo quando si ha già creato un commento -->
+                        <md-button v-if="autorePresente" class="md-primary" v-on:click="salva">Modifica</md-button> <!-- visibile solo quando si ha già creato un commento -->
+                        <md-button v-if="autorePresente" class="md-primary" @click="active = true">Elimina</md-button> <!-- visibile solo quando si ha già creato un commento -->
                     </div>
                     <!-- ------------- FINESTRA DI DIALOGO PER CANCELLARE IL COMMENTO -------------  -->
                     <md-dialog-confirm
@@ -206,8 +206,9 @@ export default {
     },
     watch: {
         $route: function(){
-            console.log("Hai cambiato pagina!");
+            
             this.preferitoSaved = false;
+            
             this.load();
         },
     },
@@ -244,20 +245,18 @@ export default {
                         for (let j = 0; j < this.fav.length; j++) {
 
                             if (this.fav[j] === this.game.name) {
-                                console.log("Varda che sto gioco è nei preferiti!");
+                                
                                 this.preferitoSaved = true;
                             }
 
                         }
 
                     } else {
-                        console.log("Questo giono non è nei preferiti!");
+                        
                         this.preferitoSaved = false;  // nel caso che non siano stati trovati dei preferiti
                     }
                     // ^^^^^ CONTROLLO CHE SIANO STATI STROVATI DEI PREFERITI NEL DB ^^^^^
-
-                    console.log(this.fav);
-                    console.log(this.fav[0]);
+                    
                 });
                 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -354,14 +353,11 @@ export default {
                 let doc = localStorage.getItem("username") + "-" + this.game.name;
                 dataservice.cancellaPreferito(doc);
 
-                console.log("LA FUNZIONE HA TERMINATO.");
-
                 this.preferitoSaved = false;
 
             } else {
                 dataservice.savePreferito(this.game.name);
-
-                console.log("LA FUNZIONE HA TERMINATO.");
+                
                 this.preferitoSaved = true;
             }
 

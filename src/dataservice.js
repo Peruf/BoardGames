@@ -141,8 +141,6 @@ export default{
         let autore = localStorage.getItem('username');
         let nomeDoc = autore+"-"+gioco; // creo il nome per il documento in cui salvare il commento
 
-        console.log("Ora vado a salvare " + gioco + " nei preferiti per conto di " + autore);
-
         return db
         .collection('preferiti')
         .doc(nomeDoc)
@@ -177,10 +175,12 @@ export default{
     },
     cancellaPreferito(doc) { // FUNZIONE PER ELIMINARE IL PREFERITO DAL DB
 
-        return db
+        db
         .collection('preferiti')
         .doc(doc)
         .delete();
+
+        return true;
 
     }
 }

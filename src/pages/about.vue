@@ -42,7 +42,9 @@
       </md-card-header>
 
       <md-card-content>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+        Studente di Interfacce e Tecnologie della Comunicazione dell'Università di Trento con la passione per i muffin al cioccolato.
+        <br>Mi piace lavorare in gruppo e provare cose nuove, basta che il formaggio non sia coinvolto... 
+        Quello proprio non mi piace.
       </md-card-content>
     </md-card>
   </div>
@@ -68,12 +70,11 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
 }
-@media only screen and (max-width: 600px) {
-  .md-card {
-    width: 95%;
-    margin: 10px;
-    display: inline-block;
-    vertical-align: top;
+
+@media only screen and (max-width: 806px) {
+  div {
+    flex: left;
   }
+  
 }
 </style>

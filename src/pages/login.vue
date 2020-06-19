@@ -31,9 +31,13 @@ export default {
     },
     methods:{
         signIn: function(){
-            dataservice.Login(this.username);
-            // Una volta fatto il login reindirizzo la navigazione alla home
-            this.$router.push({ path: '/' });
+            if (this.username.indexOf(" ") >= 0) {
+                alert("Scrivi un nome valido");
+            } else {
+                dataservice.Login(this.username);
+                // Una volta fatto il login reindirizzo la navigazione alla home
+                this.$router.push({ path: '/' });
+            }
         }
     }
 }

@@ -17,12 +17,7 @@
         <div class="md-subhead ">Durata minima: {{game.min_playtime}}</div>
         <div class="md-subhead ">Durata massima: {{game.max_playtime}}</div>
       </md-card-header>
-      <!-- Aggiungi ai preferiti -->
-      <!-- <md-card-actions>
-        <md-button class="md-icon-button" >
-          <md-icon >favorite_outline</md-icon>
-        </md-button>
-      </md-card-actions> -->
+      
     </md-card>
     <!-- Spinner di caricamento -->
     <md-progress-spinner md-mode="indeterminate" :md-diameter="20" :md-stroke="2" v-if="loading" class="md-accent" ></md-progress-spinner>
