@@ -188,7 +188,7 @@ export default {
   width: 100%;
   display: flex; /* or inline-flex */
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: left;
 }
 @media only screen and (max-width: 600px) {
   .md-card {
