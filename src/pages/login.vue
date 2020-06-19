@@ -1,6 +1,6 @@
 <template>
     <div class="md-layout md-alignment-center-center">
-        <md-card class="md-layout-item md-size-30 md-xsmall-size-100 md-medium-size-50">
+        <md-card class="md-layout-item md-size-30 md-xsmall-size-95 md-medium-size-50">
             <md-card-area>
                 <md-card-header>
                     <span class="md-title">Login</span>
