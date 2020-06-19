@@ -62,6 +62,7 @@
 
             <!-- -------------------------- ALTRE INFORMAZIONI SUL GIOCO -------------------------- -->
             <md-card-content>
+                <!-- DESCRIZIONE -->
                 <h1 class="md-title mt2">Descrizione</h1>
                 <div class="ml1 mt2 mr1 descrizione">{{game.description}}</div> <!-- descrizione del game -->
                 <h3 class="md-title mt2">Altre informazioni</h3>
@@ -410,6 +411,12 @@ export default {
 .cell{
     display: none;
 }
+
+.md-card-content {
+    margin-top: 7vh; /* Il 5% dell'altezza della pagina */
+}
+
+
 @media only screen and (max-width: 600px) {
   img{
     object-fit: scale-down;

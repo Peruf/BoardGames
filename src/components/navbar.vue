@@ -142,6 +142,7 @@
                 this.menuVisible = !this.menuVisible;
             },
             search: function(term) {
+                term = term.charAt(0).toUpperCase() + term.slice(1);
                 this.searchOptions = dataservice.searchGioco(term);
             },
             select: function(selected) {
