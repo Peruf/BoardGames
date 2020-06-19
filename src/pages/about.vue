@@ -11,7 +11,7 @@
       </md-card-header>
 
       <md-card-content>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Optio itaque ea, nostrum odio. Dolores, sed accusantium quasi non, voluptas eius illo quas, saepe voluptate pariatur in deleniti minus sint. Excepturi.
+        Adoro trascorrere il mio tempo in mezzo alle persone. Le mie passioni sono le illustrazioni digitali e gli sport amatoriali, infatti fin da piccolo ne ho praticati molti e attualmente sono un giocatore di Ultimate Frisbee della squadra di Trento. Sono iscritto al corso di Interfacce e Tecnologie della Comunicazione di Rovereto.
       </md-card-content>
     </md-card>
     <!-- Mattia -->
