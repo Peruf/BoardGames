@@ -1,6 +1,6 @@
 <template>
     <div class="md-layout md-alignment-center-center">
-        <md-card class="md-layout-item md-size-30 md-xsmall-side-100 md-medium-size-50">
+        <md-card class="md-layout-item md-size-30 md-xsmall-size-100 md-medium-size-50">
             <md-card-area>
                 <md-card-header>
                     <span class="md-title">Login</span>
@@ -11,10 +11,10 @@
                         <md-input v-model="username"></md-input>
                     </md-field>
                 </md-card-content>
-                    <md-card-action name="login">
+                    <md-card-actions name="login">
                         <!-- Il bottone si abilita solo se c'è scritto qualcosa nell'imput username -->
                         <md-button class="md-accent md-raised" :disabled="!username" @click="signIn()">Sign in</md-button>
-                    </md-card-action>
+                    </md-card-actions>
             </md-card-area>
         </md-card>
     </div>    

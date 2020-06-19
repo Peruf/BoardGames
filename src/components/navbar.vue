@@ -7,12 +7,12 @@
             <div class="md-toolbar-section-start">
 
                 <!-- ICONA HAMBURGER -->
-                <md-button class="md-icon-button" @click="showNavigation = true">
+                <md-button class="md-icon-button" @click="showNavigation = true" v-if="authenticated">
                     <md-icon>menu</md-icon>
                 </md-button>
 
                 <!-- TITOLO -->
-                <router-link to="/"><span class="md-title">Giochi</span></router-link>
+                <span class="md-title">Giochi</span>
 
             </div>
 
@@ -22,10 +22,10 @@
 
 
             <!-- SECTION END -->
-            <div class="md-toolbar-section-end">
+            <div class="md-toolbar-section-end" v-if="authenticated">
 
                 <!-- BARRA DI RICERCA -->
-                <md-autocomplete 
+                <md-autocomplete id="autocomplete"
                 class="searchBar" 
                 md-layout="box" 
                 v-model="SelectedGame" 
@@ -37,7 +37,8 @@
                 <label >Cerca un gioco</label>
 
                 </md-autocomplete>
-
+                <md-button id="search" class="md-icon-button search" @click="mostra()"><md-icon>search</md-icon></md-button>
+                <md-button id="close" class="md-icon-button close" @click="chiudi()"><md-icon>clear</md-icon></md-button>
             </div>
 
         </md-app-toolbar>
@@ -83,10 +84,16 @@
                     <md-icon>favorite</md-icon>
                     <span class="md-list-item-text">Preferiti</span>
                 </md-list-item>
-
+                <md-toolbar class="md-transparent" md-elevation="0">
+                    Altro
+                </md-toolbar>
                 <md-list-item @click="About">
                     <md-icon>info</md-icon>
                     <span class="md-list-item-text">About us</span>
+                </md-list-item>
+                <md-list-item @click="logout">
+                    <md-icon>exit_to_app</md-icon>
+                    <span class="md-list-item-text">Logout</span>
                 </md-list-item>
             </md-list>
 
@@ -104,16 +111,20 @@
             return {
                 showNavigation: false,
                 SelectedGame: null,
-                searchOptions: []
+                searchOptions: [],
+                authenticated: dataservice.isAuthenticated(),
             };
+        },
+        watch: {
+            $route: function() {
+                this.authenticated = dataservice.isAuthenticated();
+            }
         },
         methods: {
             toggleMenu () {
-                console.log("Dentro il menu");
-                this.menuVisible = !this.menuVisible
+                this.menuVisible = !this.menuVisible;
             },
             search: function(term) {
-                console.log("Ciao, sei dentro SEARCH");
                 this.searchOptions = dataservice.searchGioco(term);
             },
             select: function(selected) {
@@ -148,12 +159,38 @@
                 this.showNavigation = false;
                 this.$router.push({path: '/about_us'});
             },
+            logout: function(){
+                this.showNavigation = false;
+                dataservice.Logout();
+                this.$router.push({path: '/login'});
+            },
+            mostra: function(){
+                document.getElementById("search").style.display = "none";
+                document.getElementById("close").style.display = "block";
+                document.getElementById("autocomplete").style.display = "block";
+            },
+            chiudi: function(){
+                document.getElementById("search").style.display = "block";
+                document.getElementById("close").style.display = "none";
+                document.getElementById("autocomplete").style.display = "none";
+            }
         }
     }
 </script>
 
 <style scoped>
-.searchBar {
-  max-width: 250px;
+.md-app-toolbar{
+    flex-wrap: nowrap;
+}
+.search, .close{
+      display:none;
+  }
+@media only screen and (max-width: 600px) {
+  .md-title, .md-autocomplete, .close{
+      display:none;
+  }
+  .search{
+      display: block;
+  }
 }
 </style>

@@ -66,7 +66,8 @@ export default{
         });
     },
     setVote(name, valore){
-        return db.collection('voti').doc().set({
+        let key = name + localStorage.getItem('username');
+        return db.collection('voti').doc(key).set({
             voto: valore,
             gioco: name,
             username: localStorage.getItem('username')
