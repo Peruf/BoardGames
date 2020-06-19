@@ -34,23 +34,17 @@
                 <!-- Immagine cliccabile -->
                     <md-card-media md-ratio="1-1">
                         <router-link :to="'/game/' + game.name">
-                        <img :src="game.images.original" class="APIimg" />
+                        <img :src="game.images.original"  />
                         </router-link>
                     </md-card-media>
                     <!-- Titolo e anno di pubblicazione -->
                     <md-card-header>
                         <router-link :to="'/game/' + game.name" class="router">
-                        <div class="md-title black abs">{{game.name}}</div>
+                        <div class="md-title black">{{game.name}}</div>
                         </router-link>
-                        <div class="md-subhead abs">Giocatori minimi: {{game.min_players}}</div>
-                        <div class="md-subhead abs">Giocatori massimi: {{game.max_players}}</div>
+                        <div class="md-subhead ">Giocatori minimi: {{game.min_players}}</div>
+                        <div class="md-subhead ">Giocatori massimi: {{game.max_players}}</div>
                     </md-card-header>
-                    <!-- Aggiungi ai preferiti -->
-                    <!-- <md-card-actions>
-                        <md-button class="md-icon-button" >
-                        <md-icon >favorite_outline</md-icon>
-                        </md-button>
-                    </md-card-actions> -->
             </md-card>
         
         <!-- Spinner di caricamento -->
@@ -75,7 +69,6 @@ export default {
       loading: false,
       isVoid: false,
       limit: 20,
-      //fav: false,
       min: 1,
       max : 4,
     };
@@ -110,34 +103,19 @@ export default {
 
 .home {
   width: 100%;
-  display: flex; /* or inline-flex */
+  display: flex; 
   flex-wrap: wrap;
   justify-content: space-around;
-}
-@media only screen and (max-width: 600px) {
-  .md-card {
-    width: 95%;
-    margin: 10px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  .titolo{
-    padding-bottom: 1em;
-  }
 }
 .black {
   color: black;
   text-decoration: none;
-}
-.abs{
-    position:relative;
 }
 .router:hover{
     text-decoration: none;
 }
 .inTitolo{
   width: 100%;
-
   padding-top: 1em;
   padding-bottom: 2em;
 }
@@ -157,10 +135,13 @@ export default {
 .menu{
   border-bottom: solid 3px lightgray;
 }
+/* Quando il menu ha il focus diventa del verde md-accent */
+
 .menu:focus{
   border-bottom: solid 3px rgb(134,217,71);
   color: rgb(134,217,71);
 }
+/* Se c'è il focus sul menu, l'icona diventa del verde dell'md-accent e ruota di 180° */
 .menu:focus .drop{
   color: rgb(134,217,71);
   transform: rotate(180deg);
@@ -173,5 +154,12 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis; 
 }
-
+@media only screen and (max-width: 600px) {
+  .md-card {
+    width: 95%;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
 </style>

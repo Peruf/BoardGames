@@ -326,9 +326,6 @@ export default {
 .star{
     color: rgb(134,217,71)!important;
 }
-/* .starO{
-    color: black!important;
-} */
 .black{
     color: black!important;
 }

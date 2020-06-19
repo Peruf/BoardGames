@@ -113,11 +113,28 @@
                 SelectedGame: null,
                 searchOptions: [],
                 authenticated: dataservice.isAuthenticated(),
+                windowWidth: 0, //variabile con il valore della larghezza
             };
         },
         watch: {
             $route: function() {
                 this.authenticated = dataservice.isAuthenticated();
+            },
+            //ogni volta che la finestra cambia di grandezza c'è un watcher che aggiorna gli elementi
+            windowWidth: function(){
+                //se si fa il resize resetta sempre la visione da telefono e da computer
+                if(this.windowWidth > 600){
+                    document.getElementById("search").style.display = "none";
+                    document.getElementById("giochi").style.display = "block";
+                    document.getElementById("close").style.display = "none";
+                    document.getElementById("autocomplete").style.display = "block";
+                }
+                else{
+                    document.getElementById("search").style.display = "block";
+                    document.getElementById("giochi").style.display = "block";
+                    document.getElementById("close").style.display = "none";
+                    document.getElementById("autocomplete").style.display = "none";
+                }
             }
         },
         methods: {
@@ -176,6 +193,12 @@
                 document.getElementById("close").style.display = "none";
                 document.getElementById("autocomplete").style.display = "none";
             }
+        },
+        //Ogni volta che la finestra cambia dimensioni, la variabile windowWidth diventa la larghezza della finestra
+        mounted() {
+            window.addEventListener('resize', () => {
+                this.windowWidth = window.innerWidth;
+            });
         }
     }
 </script>

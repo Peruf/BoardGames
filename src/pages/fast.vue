@@ -12,10 +12,10 @@
       <!-- Titolo e durata del gioco -->
       <md-card-header>
         <router-link :to="'/game/' + game.name" class="router">
-          <div class="md-title black abs">{{game.name}}</div>
+          <div class="md-title black ">{{game.name}}</div>
         </router-link>
-        <div class="md-subhead abs">Durata minima: {{game.min_playtime}}</div>
-        <div class="md-subhead abs">Durata massima: {{game.max_playtime}}</div>
+        <div class="md-subhead ">Durata minima: {{game.min_playtime}}</div>
+        <div class="md-subhead ">Durata massima: {{game.max_playtime}}</div>
       </md-card-header>
       <!-- Aggiungi ai preferiti -->
       <!-- <md-card-actions>
@@ -83,39 +83,22 @@ export default {
 .md-card {
   width: 240px;
   margin: 10px;
-  display: inline-block;
 }
-
 .home {
   width: 100%;
   display: flex; /* or inline-flex */
   flex-wrap: wrap;
   justify-content: space-around;
 }
-@media only screen and (max-width: 600px) {
-  .md-card {
-    width: 95%;
-    margin: 10px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  .titolo{
-    padding-bottom: 1em;
-  }
-}
 .black {
   color: black;
   text-decoration: none;
-}
-.abs{
-    position:relative;
 }
 .router:hover{
     text-decoration: none;
 }
 .inTitolo{
   width: 100%;
-
   padding-top: 1em;
   padding-bottom: 2em;
 }
@@ -126,6 +109,13 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; 
+}
+
+@media only screen and (max-width: 600px) {
+  .md-card {
+    width: 95%;
+    margin: 10px;
+  }
 }
 </style>
 
