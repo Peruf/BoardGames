@@ -2,7 +2,7 @@
 
     <div class="md-layout md-alignment-top-center game">
         <!-- voglio che i game siano una card 
-        https://www.boardgameatlas.com/api/search?name=Azul&client_id=vuxWmH7cLW per guardare le caratterisctiche dei giochi
+        https://api.boardgameatlas.com/api/search?name=Azul&client_id=vuxWmH7cLW per guardare le caratterisctiche dei giochi
         -->
         <md-card class="md-layout-item md-large-size-90 md-xsmall-size-95" v-if="game"> <!-- la card si mostra solo se c'è un game -->
 

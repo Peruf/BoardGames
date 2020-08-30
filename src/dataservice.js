@@ -20,16 +20,16 @@ export default{
         localStorage.removeItem("username");
     },
     getGames(){  //le chiamate sono asincrone
-        return axios.get("https://www.boardgameatlas.com/api/search?client_id=vuxWmH7cLW"); 
+        return axios.get("https://api.boardgameatlas.com/api/search?client_id=vuxWmH7cLW"); 
     },
     getGamesbyYear(year){  //le chiamate sono asincrone
-        return axios.get("https://www.boardgameatlas.com/api/search?year_published=" + year + "&client_id=vuxWmH7cLW"); 
+        return axios.get("https://api.boardgameatlas.com/api/search?year_published=" + year + "&client_id=vuxWmH7cLW"); 
     },
     getGamesbyPerson(min, max){  //le chiamate sono asincrone
-        return axios.get("https://www.boardgameatlas.com/api/search?min_players=" + min +"&max_players="+ max + "&client_id=vuxWmH7cLW"); 
+        return axios.get("https://api.boardgameatlas.com/api/search?min_players=" + min +"&max_players="+ max + "&client_id=vuxWmH7cLW"); 
     },
     getGame(name){
-        return axios.get("https://www.boardgameatlas.com/api/search?name=" + name + "&client_id=vuxWmH7cLW");
+        return axios.get("https://api.boardgameatlas.com/api/search?name=" + name + "&client_id=vuxWmH7cLW");
     },
     searchGioco(text) {
         if (!text || text.length < 2) {
@@ -37,7 +37,7 @@ export default{
                 resolve([]);
             });
         }
-        return axios.get("https://www.boardgameatlas.com/api/search?client_id=vuxWmH7cLW")
+        return axios.get("https://api.boardgameatlas.com/api/search?client_id=vuxWmH7cLW")
         .then(data => {
             return data.data.games.filter(
                 element => element.name.indexOf(text) >= 0

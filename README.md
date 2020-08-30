@@ -1,5 +1,5 @@
 # BoardGames
-Questa app sfrutta le API che si possono trovare in questo sito https://www.boardgameatlas.com/api/docs/search e riguarda i giochi da tavolo.
+Questa app sfrutta le API che si possono trovare in questo sito https://api.boardgameatlas.com/api/docs/search e riguarda i giochi da tavolo.
 
 E' possibile:
 - visualizzare salvare i giochi in una lista di preferiti
